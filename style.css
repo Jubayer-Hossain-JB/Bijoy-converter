@@ -1,0 +1,100 @@
+body{
+    background: linear-gradient(124deg,#004C84 1%, #2D0E5E 87%, #2586A7 15%);
+}
+h2{
+    text-align: center;
+    color: #fff;
+    font-family: 'Mulish', sans-serif;
+    font-weight: 600;
+}
+.image{
+    background-image: url('image.svg');
+    width: 128px;
+    height: 128px;
+    transform: translate(50%, -5rem);
+    position: absolute;
+    left: 60%;
+    z-index: 11;
+}
+form{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    margin-top: 3rem;
+}
+textarea{
+    width: 42vw;
+    height: 80vh;
+    resize: none;
+    margin-right: 1rem;
+}
+
+textarea::selection {
+    color: #580000;
+    background-color: #81B2C9;
+    text-shadow: none;
+  }
+
+textarea[name="Unicode"]{
+    font-size: 20px;
+}
+textarea[name="Classic"]{
+    font-size: 25px;
+    font-family: 'SutonnyMJ';
+}
+input[type="button"], [type="reset"]{
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+}
+
+input[type='reset']{
+    border: none;
+    background: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+div.copy{
+    background-color: #8760B9;
+    width: min-content;
+    height: 20px;
+    border-radius: 20px;
+    padding: 1px 10px 3px;
+    color: #fff;
+    z-index: 10;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Mulish', sans-serif;
+}
+div#ClassicBar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: min-content;
+    transform: translate(34vw, -2rem);
+    opacity: 0.2;
+    transition: opacity 0.2s;
+    
+}
+div#UnicodeBar{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: min-content;
+    transform: translate(77vw, -2rem);
+    opacity: 0.2;
+    transition: opacity 0.2s;
+
+}
+
+#ClassicBar input[type="reset"]{
+    transform: translate(5vw, 2.1rem);
+}
+#UnicodeBar input[type="reset"]{
+    transform: translate(5vw, 2.1rem);
+}
+
+#ClassicBar:hover, #UnicodeBar:hover{
+    opacity: 1;
+}

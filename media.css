@@ -1,0 +1,21 @@
+/* @media screen and (max-width: 1800px){
+    div#ClassicBar{
+        transform: translate(34vw, -88vh);
+    
+    }
+    div#UnicodeBar{
+        transform: translate(77vw, -101vh);
+    
+    }
+    
+}
+@media screen and (max-width: 1500px) {
+    div#ClassicBar{
+        transform: translate(5vw, -84vh);
+    
+    }
+    div#UnicodeBar{
+        transform: translate(5vw, -91vh);
+    
+    }
+} */
