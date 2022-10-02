@@ -17,6 +17,7 @@ h2{
     z-index: 11;
 }
 form{
+    display: flex;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
