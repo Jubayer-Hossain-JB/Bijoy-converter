@@ -1,6 +1,9 @@
 String.prototype.replaceAt = function(index, what) {
     return this.substring(0, index)+ what + this.substring(index +1,  this.length);
 }
+String.prototype.middleAdd = function(index, what){
+    return this.substring(0, index)+ what + this.substring(index, this.length);
+}
 String.prototype.replaceAll = function(str1, str2, ignore) {
     return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
 } 
@@ -31,7 +34,16 @@ function asyncCall(d) {
                 else{
                     e.preventDefault()
                     let value = areaUnicode.val();
-                    var lastval = value[value.length-1];
+                    
+                    areaUnicode.selectionStart = 0;
+                    let currentPos = areaUnicode.selectionEnd;
+                    areaUnicode.selectionStart = currentPos;
+                    
+                    if(currentPos>0){
+                         var lastval = value(currentPos-1];
+                    }else{
+                          var lastval = "";
+                         }
                     
                     let print = (shft ? xchange[2] : xchange[1]) + temp;
                     
@@ -53,7 +65,8 @@ function asyncCall(d) {
                                 if(lastval == "ে"|| lastval == "ৈ"|| lastval =="ি"){
                                     temp3 = lastval
                                     temp2 = value.length+1;
-                                    value = value.replaceAt(value.length-1, "")
+                                    value = value.replaceAt(currentPos-1, "")
+                                    currentPos -=1
                                 }
                                 break;
                             default:
@@ -61,10 +74,12 @@ function asyncCall(d) {
                         }
                     }
 
-                    value += print
+                    value.middleAdd(currentPos, print)
+                    //value +=print
                     if(temp2){
                         if(value.length === temp2){
-                            value += temp3;
+                            value.middleAdd(currentPos+1, temp3) //There can be Error. Because, he can put his last step anywhere.
+                            //value += temp3;
                             temp2 = 0;
                             temp = ""
                         }
