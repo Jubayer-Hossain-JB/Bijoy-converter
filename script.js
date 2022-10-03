@@ -40,7 +40,7 @@ function asyncCall(d) {
                     areaUnicode.selectionStart = currentPos;
                     
                     if(currentPos>0){
-                         var lastval = value(currentPos-1];
+                         var lastval = value[currentPos-1];
                     }else{
                           var lastval = "";
                          }
