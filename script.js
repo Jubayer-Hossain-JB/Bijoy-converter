@@ -136,7 +136,7 @@ function asyncCall(d) {
                 areaClassicjs.selectionStart = 0;
                 let currentPos = areaClassicjs.selectionEnd;
                 areaClassicjs.selectionStart = currentPos;
-                
+
                 let print = shft ? xchange[2] : xchange[1];
                 value = value.middleAdd(currentPos, print);      
                 areaClassic.val(value);
@@ -147,11 +147,11 @@ function asyncCall(d) {
                     areaClassic.val(areaClassic.val().replace(juk['seq'], juk['out']))
                 }
                 
-                clearTimeout(timer);
-                timer = setTimeout(translatetoUnicode, 500);
             }}
+            clearTimeout(timer);
+            timer = setTimeout(translatetoUnicode, 500);
         }
-    )    
+    )
     function translatetoClassic(){
         value = areaUnicode.val() ;
         var keys = ""
