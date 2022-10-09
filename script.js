@@ -13,9 +13,15 @@ fetch('./key.json').then(r => r.json()).then(r => {
 } );
 var timer = '';
 function asyncCall(d) {
+
+    /***Data Structure Meaning ***
+       d = data
+       d[0] = unicode, d[1] = Classic
+       [][0]= Code to Word, [][1] = fixing word
+    */
+
     const areaUnicode =$('[name="Unicode"]');
     const areaClassic = $('[name="Classic"]');
-    const unicode = d[0][0];
     areaClassic.focus()
     let temp = "";
     let temp2 = 0 ;
@@ -35,18 +41,20 @@ function asyncCall(d) {
                     e.preventDefault()
                     let value = areaUnicode.val();
                     
-                    areaUnicode.selectionStart = 0;
-                    let currentPos = areaUnicode.selectionEnd;
-                    areaUnicode.selectionStart = currentPos;
+                    let areaUnicodejs =  document.getElementsByName('Unicode')[0];
+                    areaUnicodejs.selectionStart = 0;
+                    let currentPos = areaUnicodejs.selectionEnd;
+                    areaUnicodejs.selectionStart = currentPos;
                     
+                    var lastval;
                     if(currentPos>0){
-                         var lastval = value[currentPos-1];
+                        lastval = value[currentPos-1];
                     }else{
-                          var lastval = "";
+                        lastval = "";
                          }
                     
                     let print = (shft ? xchange[2] : xchange[1]) + temp;
-                    
+                    var tempPos = temp.length
                     if (lastval != "্"){
                         switch (print){
                             case "ে":
@@ -71,14 +79,16 @@ function asyncCall(d) {
                                 break;
                             default:
                                 temp =""
+                            }
                         }
-                    }
-
-                    value.middleAdd(currentPos, print)
-                    //value +=print
-                    if(temp2){
+                        
+                        value = value.middleAdd(currentPos, print)
+                        currentPos += 1+tempPos
+                        //value +=print
+                        if(temp2){
                         if(value.length === temp2){
-                            value.middleAdd(currentPos+1, temp3) //There can be Error. Because, he can put his last step anywhere.
+                            value.middleAdd(currentPos, temp3) //There can be Error. Because, he can put his last step anywhere.
+                            currentPos += 1
                             //value += temp3;
                             temp2 = 0;
                             temp = ""
@@ -86,6 +96,10 @@ function asyncCall(d) {
                     }
                     
                     areaUnicode.val(value);
+                    if(print){
+                    areaUnicodejs.selectionEnd = currentPos
+                    areaUnicodejs.selectionStart = currentPos
+                    }
                     
                     
                 }
@@ -94,8 +108,7 @@ function asyncCall(d) {
                     areaUnicode.val(areaUnicode.val().replace(juk['seq'], juk['out']))
                 }
                 clearTimeout(timer)  ;          
-                // timer = setTimeout(translatetoClassic, 500)
-                translatetoClassic();
+                timer = setTimeout(translatetoClassic, 1000)
 
             }
         }
@@ -111,14 +124,25 @@ function asyncCall(d) {
             let value = "";
 
             if (xchange){
-            if((ctrl || altr)){
+            if(ctrl || altr){
                 temp =""
             }
             else{
                 e.preventDefault()
+
                 value = areaClassic.val()
-                let print = shft ? xchange[2] : xchange[1]                
-                areaClassic.val(value + print)
+                var areaClassicjs = document.getElementsByName("Classic")[0]
+
+                areaClassicjs.selectionStart = 0;
+                let currentPos = areaClassicjs.selectionEnd;
+                areaClassicjs.selectionStart = currentPos;
+                
+                let print = shft ? xchange[2] : xchange[1];
+                value = value.middleAdd(currentPos, print);      
+                areaClassic.val(value);
+                areaClassicjs.selectionStart = currentPos+1;
+                areaClassicjs.selectionEnd = currentPos+1;
+
                 for(var juk of d[1][1]){
                     areaClassic.val(areaClassic.val().replace(juk['seq'], juk['out']))
                 }
