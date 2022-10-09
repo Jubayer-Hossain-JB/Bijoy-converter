@@ -8,6 +8,7 @@ h2{
     font-weight: 600;
 }
 .image{
+    display: none;
     background-image: url('image.svg');
     width: 128px;
     height: 128px;
