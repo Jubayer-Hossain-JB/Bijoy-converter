@@ -268,7 +268,6 @@ function asyncCall(d) {
                                 }
                             }else{
                                 keys+=l;
-                                console.log(l)
                             }
                             if (l == val[val.length - 1]){
                                 resolve()
