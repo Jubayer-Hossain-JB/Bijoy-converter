@@ -35,7 +35,7 @@ function asyncCall(d) {
             let xchange = transform(code, false, d[0][0])
             if (xchange){
                 if(ctrl || altr){
-                    console.log("Externel...")
+                    console.warn("Externel...")
                 }
                 else{
                     e.preventDefault()
@@ -176,21 +176,31 @@ function asyncCall(d) {
                     
                     if (r){
                         var r2 = transform(parseInt(r[0]),false, d[1][0]);
-                        var thro = (r[3] ? r2[2] : r2[1]);
-                        if (thro == "‰" ||thro == "w"|| thro== "‡"){
+                        var print;
+                        if(!r2){
+                            var change = ['0','1','2','3','4','5','6','7','8','9', '!', '@','#','$','%','^','*','(',')']
+                            var numer =['০','১','২','৩','৪','৫','৬','৭','৮','৯','!','@','#','৳','%','ৰ','*','(',')']
+                            for(var item of numer){
+                                if(l==item){
+                                    print=change[numer.indexOf(item)]
+                                }
+                            }
+                        }else{
+                            print = (r[3] ? r2[2] : r2[1]);
+                        }
+                        if (print == "‰" ||print == "w"|| print== "‡"){
                             var key;
                             if (keys[keys.length-2] == "&"){
                                 key = keys.substring(keys.length-3, keys.length)
-                                keys = keys.substring(0, keys.length-3)+thro+key;
-                                thro = ""
-                                console.log(keys[keys.length-2])
+                                keys = keys.substring(0, keys.length-3)+print+key;
+                                print = "";
                             }else if (keys[keys.length-1] !="&"){
                                 key = keys[keys.length-1];
-                                keys = keys.replaceAt(keys.length-1, thro)+key
-                                thro = "";
+                                keys = keys.replaceAt(keys.length-1, print)+key
+                                print = "";
                             }
                         }
-                        keys+= thro;
+                        keys+= print;
                         if (l == val[val.length - 1]){
                             resolve()
                         }
@@ -210,6 +220,7 @@ function asyncCall(d) {
     }
     function translatetoUnicode(){
         value = areaClassic.val() ;
+        temp = "";
                     var keys = ""
                     let p = new Promise((resolve) => {
                         if (value){
@@ -229,22 +240,22 @@ function asyncCall(d) {
                             var r = transform(false, l, d[1][0]);
                             if (r){
                                 var r2 = transform(parseInt(r[0]),false, d[0][0]);
-                                var thro = (r[3] ? r2[2] : r2[1])+temp;
+                                var print = (r[3] ? r2[2] : r2[1])+temp; //r[3] return if Shift pressed
                                 var lastval = keys[keys.length-1];
                             
                                 if(lastval != "্"){
-                                    switch (thro){
+                                    switch (print){
                                         case "ে":
-                                            temp = thro;
-                                            thro = "";
+                                            temp = print;
+                                            print = "";
                                             break;
                                         case "ৈ":
-                                            temp = thro;
-                                            thro = "";
+                                            temp = print;
+                                            print = "";
                                             break;
                                         case "ি":
-                                            temp = thro;
-                                            thro = "";
+                                            temp = print;
+                                            print = "";
                                             break;
                                         case "্":
 
@@ -258,7 +269,7 @@ function asyncCall(d) {
                                             temp ="";
                                     }
                                 }
-                                keys+= thro;
+                                keys+= print;
                                 if(temp2){
                                     if(keys.length === temp2){
                                         keys += temp3;
@@ -267,7 +278,13 @@ function asyncCall(d) {
                                     }
                                 }
                             }else{
-                                keys+=l;
+                                var numer = ['0','1','2','3','4','5','6','7','8','9', '!', '@','#','$','%','^','*','(',')']
+                                var change =['০','১','২','৩','৪','৫','৬','৭','৮','৯','!','@','#','৳','%','ৰ','*','(',')']
+                                for(var item of numer){
+                                    if(l==item){
+                                        keys+=change[numer.indexOf(item)]
+                                    }
+                                }
                             }
                             if (l == val[val.length - 1]){
                                 resolve()
@@ -299,7 +316,7 @@ function asyncCall(d) {
 }
 
 function transform(keyCode = false, letter = false, method){
-      var syn = keyCode ? "keycode" : "nrml_txt"
+      var syn = keyCode ? "keycode" : "nrml_txt";
 
       if (letter){
           for (var i=0; i<method.length; i++){
@@ -311,11 +328,12 @@ function transform(keyCode = false, letter = false, method){
             }
         }
     }else{
-        for(k of method){
-            if ((keyCode||letter) == k[syn]){
-                return [k['keycode'], k['nrml_txt'], k['sft_txt']]
+        for (var i=0; i<method.length; i++){
+            var k = method[i]
+            if(keyCode == k[syn]){
+                return [k['keycode'], k['nrml_txt'], k['sft_txt'], false];
             }
         }
     }
- }
+    }
  
