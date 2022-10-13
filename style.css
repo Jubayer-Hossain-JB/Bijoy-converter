@@ -39,7 +39,7 @@ textarea::selection {
   }
 
 textarea[name="Unicode"]{
-    font-size: 20px;
+    font-size: 18px;
 }
 textarea[name="Classic"]{
     font-size: 25px;
