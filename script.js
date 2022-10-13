@@ -97,8 +97,9 @@ function asyncCall(d) {
                     
                     areaUnicode.val(value);
                     if(print){
-                    areaUnicodejs.selectionEnd = currentPos
-                    areaUnicodejs.selectionStart = currentPos
+                        if(print=="্র"||print=="্য") currentPos +=1;
+                        areaUnicodejs.selectionEnd = currentPos
+                        areaUnicodejs.selectionStart = currentPos
                     }
                     
                     
