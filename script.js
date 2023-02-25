@@ -26,6 +26,7 @@ function asyncCall(d) {
     let temp = "";
     let temp2 = 0 ;
     let temp3 = "";
+    var length = 0;
     areaUnicode.on(
         'keydown', e =>{
             let code = e.keyCode;
@@ -42,75 +43,99 @@ function asyncCall(d) {
                     let value = areaUnicode.val();
                     
                     let areaUnicodejs =  document.getElementsByName('Unicode')[0];
-                    areaUnicodejs.selectionStart = 0;
                     let currentPos = areaUnicodejs.selectionEnd;
-                    areaUnicodejs.selectionStart = currentPos;
+                    
+                    if(areaUnicodejs.selectionStart != currentPos){
+                        var start = areaUnicodejs.selectionStart;
+                        length -=currentPos-start;
+                        value = value.substring(0, start) + value.substring(currentPos, value.length);
+                        currentPos = start;
+                    }
                     
                     var lastval;
                     if(currentPos>0){
                         lastval = value[currentPos-1];
                     }else{
                         lastval = "";
-                         }
+                    }
                     
-                    let print = (shft ? xchange[2] : xchange[1]) + temp;
-                    var tempPos = temp.length
+                    let print = (shft ? xchange[2] : xchange[1]) + temp;//figuring out the keys value
+
+                    if(temp){
+                        value=value.replaceAt(currentPos-1,"");
+                        currentPos-=1;
+                        length-=1;
+                    }
+
                     if (lastval != "্"){
                         switch (print){
                             case "ে":
-                                temp = print;
-                                print = ""
-                                break;
                             case "ৈ":
-                                temp = print;
-                                print = ""
-                                break;
                             case "ি":
                                 temp = print;
-                                print = ""
+                                // currentPos-=1;
                                 break;
+                            case "র্": 
+                                if(lastval == "ে"|| lastval == "ৈ"|| lastval =="ি"){
+                                    value = value.middleAdd(currentPos-2, print);
+                                }else{
+                                    value = value.middleAdd(currentPos-1, print);
+                                }
+                                print="";
+                                break;
+                            case "্র": 
+                            case "্য":
                             case "্":
                                 if(lastval == "ে"|| lastval == "ৈ"|| lastval =="ি"){
                                     temp3 = lastval
                                     temp2 = value.length+1;
                                     value = value.replaceAt(currentPos-1, "")
-                                    currentPos -=1
+                                    // currentPos -=1
                                 }
                                 break;
                             default:
-                                temp =""
+                                temp ="";
                             }
                         }
                         
+
                         value = value.middleAdd(currentPos, print)
-                        currentPos += 1+tempPos
-                        //value +=print
+
+                        // currentPos += 1+tempPos
+
                         if(temp2){
                         if(value.length === temp2){
-                            value.middleAdd(currentPos, temp3) //There can be Error. Because, he can put his last step anywhere.
-                            currentPos += 1
+                            console.log(currentPos)
+                            value=value.middleAdd(currentPos+1, temp3) //There can be Error. Because, he can put his last step anywhere.
+                            // currentPos += 1
                             //value += temp3;
                             temp2 = 0;
-                            temp = ""
+                            temp = "";
                         }
                     }
                     
-                    areaUnicode.val(value);
-                    if(print){
-                        if(print=="্র"||print=="্য") currentPos +=1;
-                        areaUnicodejs.selectionEnd = currentPos
-                        areaUnicodejs.selectionStart = currentPos
-                    }
+                    areaUnicode.val(joint(value, d[0][1]));
                     
+                    // for(var juk of d[0][1]){
+                    //     areaUnicode.val(areaUnicode.val().replace(juk['seq'], juk['out']))
+                    // }
+                    if(print){
+                        curlength = areaUnicode.val().length
+                        currentPos+=curlength-length;
+                        length = curlength
+                        areaUnicodejs.selectionEnd = currentPos
+                                        
+                    }
                     
                 }
             
-                for(var juk of d[0][1]){
-                    areaUnicode.val(areaUnicode.val().replace(juk['seq'], juk['out']))
-                }
                 clearTimeout(timer)  ;          
                 timer = setTimeout(translatetoClassic, 1000)
 
+            }else if(code==8){
+                length-=1;
+                clearTimeout(timer)  ;          
+                timer = setTimeout(translatetoClassic, 1000)
             }
         }
         
@@ -134,19 +159,16 @@ function asyncCall(d) {
                 value = areaClassic.val()
                 var areaClassicjs = document.getElementsByName("Classic")[0]
 
-                areaClassicjs.selectionStart = 0;
                 let currentPos = areaClassicjs.selectionEnd;
-                areaClassicjs.selectionStart = currentPos;
 
                 let print = shft ? xchange[2] : xchange[1];
                 value = value.middleAdd(currentPos, print);      
-                areaClassic.val(value);
-                areaClassicjs.selectionStart = currentPos+1;
+                areaClassic.val(joint(value, d[1][1]));
+                
+                // for(var juk of d[1][1]){
+                //     areaClassic.val(areaClassic.val().replace(juk['seq'], juk['out']))
+                // }
                 areaClassicjs.selectionEnd = currentPos+1;
-
-                for(var juk of d[1][1]){
-                    areaClassic.val(areaClassic.val().replace(juk['seq'], juk['out']))
-                }
                 
             }}
             clearTimeout(timer);
@@ -170,17 +192,17 @@ function asyncCall(d) {
         p.then((val)=>{
             
             return new Promise((resolve)=>{
+                var temp="";
                 for (l of val){
-    // debugger
-    
+    // debugger     
                     var r = transform(false, l, d[0][0]);
                     
                     if (r){
                         var r2 = transform(parseInt(r[0]),false, d[1][0]);
                         var print;
                         if(!r2){
-                            var change = ['0','1','2','3','4','5','6','7','8','9', '!', '@','#','$','%','^','*','(',')']
-                            var numer =['০','১','২','৩','৪','৫','৬','৭','৮','৯','!','@','#','৳','%','ৰ','*','(',')']
+                            var change = ['0','1','2','3','4','5','6','7','8','9', '!', '@','#','$','%','^','*','(',')','?',',','<','.','>','=','+',':',';','/']
+                            var numer =['০','১','২','৩','৪','৫','৬','৭','৮','৯','!','@','#','৳','%','ৰ','*','(',')','?',',','<','.','>','=','+',':',';','/']
                             for(var item of numer){
                                 if(l==item){
                                     print=change[numer.indexOf(item)]
@@ -189,27 +211,56 @@ function asyncCall(d) {
                         }else{
                             print = (r[3] ? r2[2] : r2[1]);
                         }
+                        print=print+temp;
+                        temp="";
                         if (print == "‰" ||print == "w"|| print== "‡"){
-                            var key;
                             if (keys[keys.length-2] == "&"){
-                                key = keys.substring(keys.length-3, keys.length)
-                                keys = keys.substring(0, keys.length-3)+print+key;
+                                if(keys[keys.length-4] == "&"){
+                                    keys=keys.middleAdd(keys.length-5, print)
+                                }else{
+                                    keys = keys.middleAdd(keys.length-3, print)
+                                }
+                                print = "";
+                            }else if (keys[keys.length-1] =="©"){
+                                keys = keys.middleAdd(keys.length-2, print)
                                 print = "";
                             }else if (keys[keys.length-1] !="&"){
-                                key = keys[keys.length-1];
-                                keys = keys.replaceAt(keys.length-1, print)+key
+                                keys = keys.middleAdd(keys.length-1, print)
                                 print = "";
+                            }
+                        }else if(print=="&" && keys[keys.length-1]== "i"){
+                            if(temp!='‍'){
+                                print = "";
+                                keys = keys.replaceAt(keys.length-1, "")
+                                temp="©";
+                            }else{
+                                temp=""
                             }
                         }
                         keys+= print;
-                        if (l == val[val.length - 1]){
-                            resolve()
-                        }
+                    }else if(l=="়"){
+                        switch(keys[keys.length-1]){
+                            case "h":
+                                keys+="q"
+                                break;
+                            case "W":
+                                keys+="o"
+                                break;
+                            case "X":
+                                keys+="p"
+                                break;
+                            }
+                        keys = keys.replaceAt(keys.length-2,"");
+                    }else if(l=='‍'){
+                        temp=l;
+                    }
+                    if (l == val[val.length - 1]){
+                        resolve()
                     }
                 };
             })
         }).then(()=>{
-            if (keys.length >=2){                        
+            if (keys.length >=2){                     
                 for(var juk of d[1][1]){
                     keys = keys.replaceAll(juk['seq'], juk['out'])
                     
@@ -235,7 +286,7 @@ function asyncCall(d) {
                             }}
                         })
                         
-                    p.then( val => {
+                        p.then( val => {
                     return new Promise((resolve) =>{
                         for (l of val){
                             var r = transform(false, l, d[1][0]);
@@ -243,20 +294,18 @@ function asyncCall(d) {
                                 var r2 = transform(parseInt(r[0]),false, d[0][0]);
                                 var print = (r[3] ? r2[2] : r2[1])+temp; //r[3] return if Shift pressed
                                 var lastval = keys[keys.length-1];
-                            
+                                
                                 if(lastval != "্"){
                                     switch (print){
                                         case "ে":
-                                            temp = print;
-                                            print = "";
-                                            break;
                                         case "ৈ":
-                                            temp = print;
-                                            print = "";
-                                            break;
                                         case "ি":
                                             temp = print;
                                             print = "";
+                                            break;
+                                        case "র্":
+                                            keys = keys.middleAdd(keys.length-1, print);
+                                            print="";
                                             break;
                                         case "্":
 
@@ -279,14 +328,15 @@ function asyncCall(d) {
                                     }
                                 }
                             }else{
-                                var numer = ['0','1','2','3','4','5','6','7','8','9', '!', '@','#','$','%','^','*','(',')']
-                                var change =['০','১','২','৩','৪','৫','৬','৭','৮','৯','!','@','#','৳','%','ৰ','*','(',')']
+                                var numer = ['0','1','2','3','4','5','6','7','8','9', '!', '@','#','$','%','^','*','(',')','?',',','<','.','>','=','+',':',';','/','\n']
+                                var change =['০','১','২','৩','৪','৫','৬','৭','৮','৯','!','@','#','৳','%','ৰ','*','(',')','?',',','<','.','>','=','+',':',';','/','\n']
                                 for(var item of numer){
                                     if(l==item){
                                         keys+=change[numer.indexOf(item)]
                                     }
                                 }
                             }
+                            keys = joint(keys, d[0][1])
                             if (l == val[val.length - 1]){
                                 resolve()
                             }
@@ -294,12 +344,24 @@ function asyncCall(d) {
                     });                        
                     }).then(() => {
                         areaUnicode.val(keys)
-                        if (areaUnicode.val().length >=2){
+                        if (keys.length >=2){
                             for(var juk of d[0][1]){
                                 areaUnicode.val(areaUnicode.val().replaceAll(juk['seq'], juk['out']))
                             }
                         }
                     })
+    }
+    function joint(value, map){
+        var sub;
+        if(value.length>=5){
+            sub = value.substring(value.length-5, value.length);
+        }else{
+            sub = value;
+        }
+        for(var juk of map){
+            sub = sub.replace(juk['seq'], juk['out'])
+        }
+        return value.substring(0, value.length-5)+sub;
     }
 
     $('#copy1').click(()=>{
