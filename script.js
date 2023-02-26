@@ -161,6 +161,11 @@ function asyncCall(d) {
 
                 let currentPos = areaClassicjs.selectionEnd;
 
+                if(areaClassicjs.selectionStart != currentPos){
+                    var start = areaClassicjs.selectionStart;
+                    value = value.substring(0, start) + value.substring(currentPos, value.length);
+                    currentPos = start;
+                }
                 let print = shft ? xchange[2] : xchange[1];
                 value = value.middleAdd(currentPos, print);      
                 areaClassic.val(joint(value, d[1][1]));
@@ -344,11 +349,6 @@ function asyncCall(d) {
                     });                        
                     }).then(() => {
                         areaUnicode.val(keys)
-                        if (keys.length >=2){
-                            for(var juk of d[0][1]){
-                                areaUnicode.val(areaUnicode.val().replaceAll(juk['seq'], juk['out']))
-                            }
-                        }
                     })
     }
     function joint(value, map){
@@ -399,4 +399,3 @@ function transform(keyCode = false, letter = false, method){
         }
     }
     }
- 
