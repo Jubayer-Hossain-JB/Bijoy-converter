@@ -1,1 +1,393 @@
-String.prototype.replaceAt=function(e,t){return this.substring(0,e)+t+this.substring(e+1,this.length)},String.prototype.middleAdd=function(e,t){return this.substring(0,e)+t+this.substring(e,this.length)},String.prototype.replaceAll=function(e,t,r){return this.replace(RegExp(e.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),r?"gi":"g"),"string"==typeof t?t.replace(/\$/g,"$$$$"):t)},fetch("./key.json").then(e=>e.json()).then(e=>{asyncCall(e)});var timer="";function asyncCall(e){let t=$('[name="Unicode"]'),r=$('[name="Classic"]');r.focus();let l="",n=0,a="";var i=0;function s(){value=t.val();var l="";new Promise(t=>{if(value){var r=e[0][1];for(var l of r)value=value.replaceAll(l.out,l.seq),l==r[r.length-1]&&t(value)}}).then(t=>new Promise(r=>{var n="";for(l of t){var a=transform(!1,l,e[0][0]);if(a){var i,s=transform(parseInt(a[0]),!1,e[1][0]);if(s)i=a[3]?s[2]:s[1];else{var o=["0","1","2","3","4","5","6","7","8","9","!","@","#","$","%","^","*","(",")","?",",","<",".",">","=","+",":",";","/"],c=["০","১","২","৩","৪","৫","৬","৭","৮","৯","!","@","#","৳","%","ৰ","*","(",")","?",",","<",".",">","=","+",":",";","/"];for(var f of c)l==f&&(i=o[c.indexOf(f)])}i+=n,n="","‰"==i||"w"==i||"‡"==i?"&"==l[l.length-2]?(l="&"==l[l.length-4]?l.middleAdd(l.length-5,i):l.middleAdd(l.length-3,i),i=""):"\xa9"==l[l.length-1]?(l=l.middleAdd(l.length-2,i),i=""):"&"!=l[l.length-1]&&(l=l.middleAdd(l.length-1,i),i=""):"&"==i&&"i"==l[l.length-1]&&("‍"!=n?(i="",l=l.replaceAt(l.length-1,""),n="\xa9"):n=""),l+=i}else if("়"==l){switch(l[l.length-1]){case"h":l+="q";break;case"W":l+="o";break;case"X":l+="p"}l=l.replaceAt(l.length-2,"")}else"‍"==l&&(n=l);l==t[t.length-1]&&r()}})).then(()=>{if(l.length>=2)for(var t of e[1][1])l=l.replaceAll(t.seq,t.out);r.val(l)})}function o(){value=r.val(),l="";var i="";new Promise(t=>{if(value){var r=e[1][1];for(var l of r)value=value.replaceAll(l.out,l.seq),l==r[r.length-1]&&t(value)}}).then(t=>new Promise(r=>{for(l of t){var s=transform(!1,l,e[1][0]);if(s){var o=transform(parseInt(s[0]),!1,e[0][0]),f=(s[3]?o[2]:o[1])+l,d=i[i.length-1];if("্"!=d)switch(f){case"ে":case"ৈ":case"ি":l=f,f="";break;case"র্":i=i.middleAdd(i.length-1,f),f="";break;case"্":("ে"==d||"ৈ"==d||"ি"==d)&&(a=d,n=i.length+1,i=i.replaceAt(i.length-1,""));break;default:l=""}i+=f,n&&i.length===n&&(i+=a,n=0,l="")}else{var _=["0","1","2","3","4","5","6","7","8","9","!","@","#","$","%","^","*","(",")","?",",","<",".",">","=","+",":",";","/","\n"],h=["০","১","২","৩","৪","৫","৬","৭","৮","৯","!","@","#","৳","%","ৰ","*","(",")","?",",","<",".",">","=","+",":",";","/","\n"];for(var g of _)l==g&&(i+=h[_.indexOf(g)])}i=c(i,e[0][1]),l==t[t.length-1]&&r()}})).then(()=>{t.val(i)})}function c(e,t){var r;for(var l of(r=e.length>=5?e.substring(e.length-5,e.length):e,t))r=r.replace(l.seq,l.out);return e.substring(0,e.length-5)+r}t.on("keydown",r=>{let o=r.keyCode,f=r.shiftKey,d=r.ctrlKey,_=r.altKey,h=transform(o,!1,e[0][0]);if(h){if(d||_)console.warn("Externel...");else{r.preventDefault();let g=t.val(),v=document.getElementsByName("Unicode")[0],y=v.selectionEnd;if(v.selectionStart!=y){var u,p=v.selectionStart;i-=y-p,g=g.substring(0,p)+g.substring(y,g.length),y=p}u=y>0?g[y-1]:"";let m=(f?h[2]:h[1])+l;if(l&&(g=g.replaceAt(y-1,""),y-=1,i-=1),"্"!=u)switch(m){case"ে":case"ৈ":case"ি":l=m;break;case"র্":g="ে"==u||"ৈ"==u||"ি"==u?g.middleAdd(y-2,m):g.middleAdd(y-1,m),m="";break;case"্র":case"্য":case"্":("ে"==u||"ৈ"==u||"ি"==u)&&(a=u,n=g.length+1,g=g.replaceAt(y-1,""));break;default:l=""}g=g.middleAdd(y,m),n&&g.length===n&&(console.log(y),g=g.middleAdd(y+1,a),n=0,l=""),t.val(c(g,e[0][1])),m&&(y+=(curlength=t.val().length)-i,i=curlength,v.selectionEnd=y)}clearTimeout(timer),timer=setTimeout(s,1e3)}else 8==o&&(i-=1,clearTimeout(timer),timer=setTimeout(s,1e3))}),r.on("keydown",t=>{let n=t.keyCode,a=t.shiftKey,i=t.ctrlKey,s=t.altKey,f=transform(n,!1,e[1][0]),d="";if(f){if(i||s)l="";else{t.preventDefault(),d=r.val();var _=document.getElementsByName("Classic")[0];let h=_.selectionEnd;if(_.selectionStart!=h){var g=_.selectionStart;d=d.substring(0,g)+d.substring(h,d.length),h=g}let v=a?f[2]:f[1];d=d.middleAdd(h,v),r.val(c(d,e[1][1])),_.selectionEnd=h+1}}clearTimeout(timer),timer=setTimeout(o,500)}),$("#copy1").click(()=>{navigator.clipboard.writeText(r.val()),r.focus(),$("#copy1").text("Copied!"),setTimeout(()=>{$("#copy1").text("Copy")},1e3)}),$("#copy2").click(()=>{navigator.clipboard.writeText(t.val()),t.focus(),$("#copy2").text("Copied!"),setTimeout(()=>{$("#copy2").text("Copy")},1e3)})}function transform(e=!1,t=!1,r){var l=e?"keycode":"nrml_txt";if(t)for(var n=0;n<r.length;n++){var a=r[n];if(t==a[l])return[a.keycode,a.nrml_txt,a.sft_txt,!1];if(t==a.sft_txt)return[a.keycode,a.nrml_txt,a.sft_txt,!0]}else for(var n=0;n<r.length;n++){var a=r[n];if(e==a[l])return[a.keycode,a.nrml_txt,a.sft_txt,!1]}}function ctrlShiftKey(e,t){return e.ctrlKey&&e.shiftKey&&e.keyCode===t.charCodeAt(0)}document.addEventListener("contextmenu",e=>e.preventDefault()),document.onkeydown=e=>{if(123===event.keyCode||ctrlShiftKey(e,"I")||ctrlShiftKey(e,"J")||ctrlShiftKey(e,"C")||e.ctrlKey&&85===e.keyCode)return!1};
+String.prototype.replaceAt = function(index, what) {
+    return this.substring(0, index)+ what + this.substring(index +1,  this.length);
+}
+String.prototype.middleAdd = function(index, what){
+    return this.substring(0, index)+ what + this.substring(index, this.length);
+}
+String.prototype.replaceAll = function(str1, str2, ignore) {
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+} 
+
+fetch('./key.json').then(r => r.json()).then(r => {
+    asyncCall(r);
+} );
+var timer = '';
+function asyncCall(d) {
+
+    /***Data Structure Meaning ***
+       d = data
+       d[0] = unicode, d[1] = Classic
+       [][0]= Code to Word, [][1] = fixing word
+    */
+
+    const areaUnicode =$('[name="Unicode"]');
+    const areaClassic = $('[name="Classic"]');
+    areaClassic.focus()
+    let temp = "";
+    let temp2 = 0 ;
+    let temp3 = "";
+    var length = 0;
+    areaUnicode.on(
+        'keydown', e =>{
+            let code = e.keyCode;
+            let shft = e.shiftKey;
+            let ctrl = e.ctrlKey;
+            let altr = e.altKey;
+            let xchange = transform(code, false, d[0][0])
+            if (xchange){
+                if(ctrl || altr){
+                    console.warn("Externel...")
+                }
+                else{
+                    e.preventDefault()
+                    let value = areaUnicode.val();
+                    
+                    let areaUnicodejs =  document.getElementsByName('Unicode')[0];
+                    let currentPos = areaUnicodejs.selectionEnd;
+                    
+                    if(areaUnicodejs.selectionStart != currentPos){
+                        var start = areaUnicodejs.selectionStart;
+                        length -=currentPos-start;
+                        value = value.substring(0, start) + value.substring(currentPos, value.length);
+                        currentPos = start;
+                    }
+                    
+                    var lastval;
+                    if(currentPos>0){
+                        lastval = value[currentPos-1];
+                    }else{
+                        lastval = "";
+                    }
+                    
+                    let print = (shft ? xchange[2] : xchange[1]) + temp;//figuring out the keys value
+
+                    if(temp){
+                        value=value.replaceAt(currentPos-1,"");
+                        currentPos-=1;
+                        length-=1;
+                    }
+
+                    if (lastval != "্"){
+                        switch (print){
+                            case "ে":
+                            case "ৈ":
+                            case "ি":
+                                temp = print;
+                                // currentPos-=1;
+                                break;
+                            case "র্": 
+                                if(lastval == "ে"|| lastval == "ৈ"|| lastval =="ি"){
+                                    value = value.middleAdd(currentPos-2, print);
+                                }else{
+                                    value = value.middleAdd(currentPos-1, print);
+                                }
+                                print="";
+                                break;
+                            case "্র": 
+                            case "্য":
+                            case "্":
+                                if(lastval == "ে"|| lastval == "ৈ"|| lastval =="ি"){
+                                    temp3 = lastval
+                                    temp2 = value.length+1;
+                                    value = value.replaceAt(currentPos-1, "")
+                                    // currentPos -=1
+                                }
+                                break;
+                            default:
+                                temp ="";
+                            }
+                        }
+                        
+
+                        value = value.middleAdd(currentPos, print)
+
+                        // currentPos += 1+tempPos
+
+                        if(temp2){
+                        if(value.length === temp2){
+                            console.log(currentPos)
+                            value=value.middleAdd(currentPos+1, temp3) //There can be Error. Because, he can put his last step anywhere.
+                            // currentPos += 1
+                            //value += temp3;
+                            temp2 = 0;
+                            temp = "";
+                        }
+                    }
+                    
+                    areaUnicode.val(joint(value, d[0][1]));
+                    if(print){
+                        curlength = areaUnicode.val().length
+                        currentPos+=curlength-length;
+                        length = curlength
+                        areaUnicodejs.selectionEnd = currentPos
+                                        
+                    }
+                    
+                }
+            
+                clearTimeout(timer)  ;          
+                timer = setTimeout(translatetoClassic, 1000)
+
+            }else if(code==8){
+                length-=1;
+                clearTimeout(timer)  ;          
+                timer = setTimeout(translatetoClassic, 1000)
+            }
+        }
+        
+    );
+    areaClassic.on(
+        'keydown', e =>{
+            let code = e.keyCode;
+            let shft = e.shiftKey;
+            let ctrl = e.ctrlKey;
+            let altr = e.altKey;
+            let xchange = transform(code, false, d[1][0])
+            let value = "";
+
+            if (xchange){
+            if(ctrl || altr){
+                temp =""
+            }
+            else{
+                e.preventDefault()
+
+                value = areaClassic.val()
+                var areaClassicjs = document.getElementsByName("Classic")[0]
+
+                let currentPos = areaClassicjs.selectionEnd;
+
+                if(areaClassicjs.selectionStart != currentPos){
+                    var start = areaClassicjs.selectionStart;
+                    value = value.substring(0, start) + value.substring(currentPos, value.length);
+                    currentPos = start;
+                }
+                let print = shft ? xchange[2] : xchange[1];
+                value = value.middleAdd(currentPos, print);      
+                areaClassic.val(joint(value, d[1][1]));
+                areaClassicjs.selectionEnd = currentPos+1;
+                
+            }}
+            clearTimeout(timer);
+            timer = setTimeout(translatetoUnicode, 500);
+        }
+    )
+    function translatetoClassic(){
+        value = areaUnicode.val() ;
+        var keys = ""
+        let p = new Promise((resolve) => {
+        if (value){
+            var juks = d[0][1];
+            for(var juk of juks){
+                value = value.replaceAll( juk['out'], juk['seq'])
+                if (juk == juks[juks.length - 1]){
+                    resolve(value);   
+                }
+            }
+        }
+        })
+        p.then((val)=>{
+            
+            return new Promise((resolve)=>{
+                var temp="";
+                for (l of val){
+    // debugger     
+                    var r = transform(false, l, d[0][0]);
+                    
+                    if (r){
+                        var r2 = transform(parseInt(r[0]),false, d[1][0]);
+                        var print;
+                        if(!r2){
+                            var change = ['0','1','2','3','4','5','6','7','8','9', '!', '@','#','$','%','^','*','(',')','?',',','<','.','>','=','+',':',';','/']
+                            var numer =['০','১','২','৩','৪','৫','৬','৭','৮','৯','!','@','#','৳','%','ৰ','*','(',')','?',',','<','.','>','=','+',':',';','/']
+                            for(var item of numer){
+                                if(l==item){
+                                    print=change[numer.indexOf(item)]
+                                }
+                            }
+                        }else{
+                            print = (r[3] ? r2[2] : r2[1]);
+                        }
+                        print=print+temp;
+                        temp="";
+                        if (print == "‰" ||print == "w"|| print== "‡"){
+                            if (keys[keys.length-2] == "&"){
+                                if(keys[keys.length-4] == "&"){
+                                    keys=keys.middleAdd(keys.length-5, print)
+                                }else{
+                                    keys = keys.middleAdd(keys.length-3, print)
+                                }
+                                print = "";
+                            }else if (keys[keys.length-1] =="©"){
+                                keys = keys.middleAdd(keys.length-2, print)
+                                print = "";
+                            }else if (keys[keys.length-1] !="&"){
+                                keys = keys.middleAdd(keys.length-1, print)
+                                print = "";
+                            }
+                        }else if(print=="&" && keys[keys.length-1]== "i"){
+                            if(temp!='‍'){
+                                print = "";
+                                keys = keys.replaceAt(keys.length-1, "")
+                                temp="©";
+                            }else{
+                                temp=""
+                            }
+                        }
+                        keys+= print;
+                    }else if(l=="়"){
+                        switch(keys[keys.length-1]){
+                            case "h":
+                                keys+="q"
+                                break;
+                            case "W":
+                                keys+="o"
+                                break;
+                            case "X":
+                                keys+="p"
+                                break;
+                            }
+                        keys = keys.replaceAt(keys.length-2,"");
+                    }else if(l=='‍'){
+                        temp=l;
+                    }
+                    if (l == val[val.length - 1]){
+                        resolve()
+                    }
+                };
+            })
+        }).then(()=>{
+            if (keys.length >=2){                     
+                for(var juk of d[1][1]){
+                    keys = keys.replaceAll(juk['seq'], juk['out'])
+                    
+                }
+            }
+            
+            areaClassic.val(keys)
+        });
+    }
+    function translatetoUnicode(){
+        value = areaClassic.val() ;
+        temp = "";
+                    var keys = ""
+                    let p = new Promise((resolve) => {
+                        if (value){
+                            var juks = d[1][1];
+                            for(var juk of juks){
+                                value = value.replaceAll( juk['out'], juk['seq'])
+                                
+                                if (juk == juks[juks.length - 1]){
+                                    resolve(value);   
+                                }
+                            }}
+                        })
+                        
+                        p.then( val => {
+                    return new Promise((resolve) =>{
+                        for (l of val){
+                            var r = transform(false, l, d[1][0]);
+                            if (r){
+                                var r2 = transform(parseInt(r[0]),false, d[0][0]);
+                                var print = (r[3] ? r2[2] : r2[1])+temp; //r[3] return if Shift pressed
+                                var lastval = keys[keys.length-1];
+                                
+                                if(lastval != "্"){
+                                    switch (print){
+                                        case "ে":
+                                        case "ৈ":
+                                        case "ি":
+                                            temp = print;
+                                            print = "";
+                                            break;
+                                        case "র্":
+                                            keys = keys.middleAdd(keys.length-1, print);
+                                            print="";
+                                            break;
+                                        case "্":
+
+                                            if(lastval == "ে"|| lastval == "ৈ"|| lastval =="ি"){
+                                                temp3 = lastval
+                                                temp2 = keys.length+1;
+                                                keys = keys.replaceAt(keys.length-1, "")
+                                            }
+                                            break;
+                                        default:
+                                            temp ="";
+                                    }
+                                }
+                                keys+= print;
+                                if(temp2){
+                                    if(keys.length === temp2){
+                                        keys += temp3;
+                                        temp2 = 0;
+                                        temp = ""
+                                    }
+                                }
+                            }else{
+                                var numer = ['0','1','2','3','4','5','6','7','8','9', '!', '@','#','$','%','^','*','(',')','?',',','<','.','>','=','+',':',';','/','\n']
+                                var change =['০','১','২','৩','৪','৫','৬','৭','৮','৯','!','@','#','৳','%','ৰ','*','(',')','?',',','<','.','>','=','+',':',';','/','\n']
+                                for(var item of numer){
+                                    if(l==item){
+                                        keys+=change[numer.indexOf(item)]
+                                    }
+                                }
+                            }
+                            keys = joint(keys, d[0][1])
+                            if (l == val[val.length - 1]){
+                                resolve()
+                            }
+                        };
+                    });                        
+                    }).then(() => {
+                        areaUnicode.val(keys)
+                    })
+    }
+    function joint(value, map){
+        var sub;
+        if(value.length>=5){
+            sub = value.substring(value.length-5, value.length);
+        }else{
+            sub = value;
+        }
+        for(var juk of map){
+            sub = sub.replace(juk['seq'], juk['out'])
+        }
+        return value.substring(0, value.length-5)+sub;
+    }
+
+    $('#copy1').click(()=>{
+        navigator.clipboard.writeText(areaClassic.val())
+        areaClassic.focus()
+        $("#copy1").text('Copied!')
+        setTimeout(()=>{$('#copy1').text('Copy')}, 1000)
+    })
+    $('#copy2').click(()=>{
+        navigator.clipboard.writeText(areaUnicode.val())
+        areaUnicode.focus()
+        $("#copy2").text('Copied!')
+        setTimeout(()=>{$('#copy2').text('Copy')}, 1000)
+    })
+}
+
+function transform(keyCode = false, letter = false, method){
+      var syn = keyCode ? "keycode" : "nrml_txt";
+
+      if (letter){
+          for (var i=0; i<method.length; i++){
+              var k = method[i]
+              if (letter == k[syn]){
+                return [k['keycode'], k['nrml_txt'], k['sft_txt'], false];
+            }else if(letter == k["sft_txt"]){
+                return [k['keycode'], k['nrml_txt'], k['sft_txt'], true]
+            }
+        }
+    }else{
+        for (var i=0; i<method.length; i++){
+            var k = method[i]
+            if(keyCode == k[syn]){
+                return [k['keycode'], k['nrml_txt'], k['sft_txt'], false];
+            }
+        }
+    }
+    }
