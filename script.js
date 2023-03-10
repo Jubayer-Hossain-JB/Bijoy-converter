@@ -96,6 +96,23 @@ function asyncCall(d) {
                             default:
                                 temp ="";
                             }
+                        }else{
+                            switch (print){
+                                case "ে":
+                                case "ৈ":
+                                case "ি":
+                                case "ী":
+                                case "ু":
+                                case "ূ":
+                                case "ৃ":
+                                case "া":
+                                case "ৃ":
+                                case "ৗ":
+                                    temp2=undefined;
+                                    value=value.middleAdd(currentPos-1, temp3);
+                                    currentPos+=1
+                                    temp3="";
+                                }
                         }
                         
 
@@ -104,8 +121,7 @@ function asyncCall(d) {
                         // currentPos += 1+tempPos
 
                         if(temp2){
-                        if(value.length === temp2){
-                            console.log(currentPos)
+                        if(value.length === temp2){            
                             value=value.middleAdd(currentPos+1, temp3) //There can be Error. Because, he can put his last step anywhere.
                             // currentPos += 1
                             //value += temp3;
@@ -178,8 +194,12 @@ function asyncCall(d) {
         let p = new Promise((resolve) => {
         if (value){
             var juks = d[0][1];
+           // var kar = ['আ','ই','ঈ','উ','ঊ','ঋ','এ','ঐ','ঔ']
             for(var juk of juks){
                 value = value.replaceAll( juk['out'], juk['seq'])
+                // if(kar.indexOf(juk['out'])){
+                //     value = value.replaceAll( juk['seq'], juk['out'])
+                // }
                 if (juk == juks[juks.length - 1]){
                     resolve(value);   
                 }
@@ -187,7 +207,6 @@ function asyncCall(d) {
         }
         })
         p.then((val)=>{
-            
             return new Promise((resolve)=>{
                 var temp="";
                 for (l of val){
@@ -208,7 +227,11 @@ function asyncCall(d) {
                         }else{
                             print = (r[3] ? r2[2] : r2[1]);
                         }
-                        print=print+temp;
+                        if(temp=="©" && (print == "‰" ||print == "w"|| print== "‡"|| print== "v"|| print== "x"|| print== "y"|| print== "~"|| print== "Š"|| print== "„")){
+                            print = "i&"+print;
+                        }else{
+                            print=print+temp;
+                        }
                         temp="";
                         if (print == "‰" ||print == "w"|| print== "‡"){
                             if (keys[keys.length-2] == "&"){
@@ -315,6 +338,22 @@ function asyncCall(d) {
                                         default:
                                             temp ="";
                                     }
+                                }else{
+                                    switch (print){
+                                        case "ে":
+                                        case "ৈ":
+                                        case "ি":
+                                        case "ী":
+                                        case "ু":
+                                        case "ূ":
+                                        case "ৃ":
+                                        case "া":
+                                        case "ৃ":
+                                        case "ৗ":
+                                            temp2=undefined;
+                                            keys=keys.middleAdd(keys.length-1, temp3);
+                                            temp3="";
+                                        }
                                 }
                                 keys+= print;
                                 if(temp2){
@@ -391,3 +430,21 @@ function transform(keyCode = false, letter = false, method){
         }
     }
     }
+
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+function ctrlShiftKey(e, keyCode) {
+  return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
+}
+
+document.onkeydown = (e) => {
+// Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
+  if (
+    event.keyCode === 123 ||
+     ctrlShiftKey(e, 'I') ||
+     ctrlShiftKey(e, 'J') ||
+     ctrlShiftKey(e, 'C') ||
+     (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))
+   )
+     return false;
+ };
