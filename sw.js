@@ -24,6 +24,14 @@ self.addEventListener("install", (event) => {
 if(!navigator.onLine){
   self.addEventListener('fetch', event => {
       // Check if the requested file is in the cache.
-      event.respondWith(caches.match(event.request));
-    });
+      fetch(event.request).then(updated=>{
+        
+        if(updated.ok){
+          event.respondWith(updated)
+        }else{
+          event.respondWith(caches.match(event.request))
+        }
+        // event.respondWith(caches.match(event.request));
+      });
+    })
 }
