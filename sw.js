@@ -22,10 +22,10 @@ self.addEventListener("install", (event) => {
 
 
 
-  self.addEventListener('fetch', event => {
-      // Check if the requested file is in the cache.
-          event.respondWith(caches.match(event.request))
-        // event.respondWith(caches.match(event.request));
-      });
-
+self.addEventListener('fetch', event=>{
+  event.respondWith(
+    fetch(event.request)
+    .catch(_=>caches.match(event.request))
+  )
+})
 
