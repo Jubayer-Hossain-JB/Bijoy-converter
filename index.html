@@ -39,8 +39,8 @@
                 <div class="copy" id="copy1">Copy</div>
                 <input type="reset" value="&times;" onclick="$('#Classic2').css('display','none'); $('#01').css('display','block')">
             </div>
-            <div name="Classic" id="01" cols="30" rows="10"></div>
-            <div name="" id="Classic2" contenteditable="true"></div>
+            <div name="Classic" id="01" cols="30" rows="10" contenteditable="true"></div>
+            
         </div>
         <div class="unicode-box">
             <p class="box-name">Bijoy Unicode</p>
@@ -97,7 +97,6 @@
 <script>
 const editor = document.getElementById('01');
 
-/* ---------- helpers ---------- */
 function getRangeBeforeCaret(n) {
   const sel = window.getSelection();
   if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return null;
@@ -112,7 +111,7 @@ function getRangeBeforeCaret(n) {
   r.setStart(editor, Math.max(0, len - n));
   return r;
 }
-/* ---------- public API ---------- */
+
 clcReplace = function(n, text) {
   const range = getRangeBeforeCaret(n);
   if (!range) return;
@@ -135,17 +134,15 @@ clcInsert = function(newText = '') {
 
   const offset = sel.anchorOffset;
   const range = document.createRange();
-  range.setStart(node, 0);          // start of this text node
-  range.setEnd(node, offset);       // up to caret
-  range.deleteContents();           // wipe old text
+  range.setStart(node, 0);          // 
+  range.setEnd(node, offset);       // 
+  range.deleteContents();           // 
   range.insertNode(document.createTextNode(newText));
 
-  // leave caret just after the replacement
   range.collapse(false);
   sel.removeAllRanges();
   sel.addRange(range);
 };
-// returns plain-text characters before caret (inside #editor only)
 function textBeforeCaret() {
   const sel = window.getSelection();
   if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return '';
