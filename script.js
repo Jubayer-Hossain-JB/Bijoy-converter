@@ -271,6 +271,7 @@ function asyncCall(e) {
                     if (selection.rangeCount > 0) {
                     const range = selection.getRangeAt(0);
                     range.deleteContents();
+                    }
                     m = textBeforeCaret();
                     
                     let s = c ? h[2] : h[1];
