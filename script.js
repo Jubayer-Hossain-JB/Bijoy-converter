@@ -26,7 +26,7 @@ function getTextOfDiv(element) {
       if (isBlock) text += '\n';
 
       text += getTextWithLineBreaks(node);
-     if (tag != 'br' && isBlock) text += '\n';
+     if (tag !== 'br' && isBlock) text += '\n';
 
 
     }
