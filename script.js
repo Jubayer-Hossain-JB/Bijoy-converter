@@ -121,7 +121,7 @@ function asyncCall(e) {
                         s = s.replaceAll(t.seq, t.out);
                 }
                 for (var l of n) s = s.replace(l, "<span>" + l + "</span>");
-                a.innerHTML=s;
+                a[0].innerHTML=s;
             });
     }
     function f() {
@@ -298,7 +298,7 @@ function asyncCall(e) {
                     
                     let s = c ? h[2] : h[1];
                     m = m+s;
-                    var v = d(m, e[1][1], m.length);
+                    var v = d(m, e[1][1]);
                     clcInsert(v)
                 }
             else 9 == s && (l.preventDefault(), t.focus(), (r = ""), (i = ""), (o = ""));
