@@ -25,7 +25,7 @@ function getTextOfDiv(element) {
       const isBlock = ['div', 'p', 'br', 'section', 'article'].includes(tag);
       if (isBlock) text += '\n';
 
-      text += getTextWithLineBreaks(node);
+      text += getTextOfDiv(element);
      if (tag !== 'br' && isBlock) text += '\n';
 
 
