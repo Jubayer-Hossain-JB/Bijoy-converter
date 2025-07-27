@@ -12,6 +12,28 @@
         .then((e) => {
             asyncCall(e);
         });
+function getTextOfDiv(element) {
+  let text = '';
+
+  for (const node of element.childNodes) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      text += node.textContent;
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      const tag = node.tagName.toLowerCase();
+
+      // If it's a line-breaking tag
+      const isBlock = ['div', 'p', 'br', 'section', 'article'].includes(tag);
+      if (isBlock) text += '\n';
+
+      text += getTextWithLineBreaks(node);
+ .    if (tag != 'br' && isBlock) text += '\n';
+
+
+    }
+  }
+
+  return text;
+}
 var timer = "";
 function asyncCall(e) {
     const t = $('[name="Unicode"]'),
@@ -103,7 +125,7 @@ function asyncCall(e) {
             });
     }
     function f() {
-        (value = a.textContent), (r = "");
+        (value = getTextOfDiv(a[0])), (r = "");
         var s = "";
         new Promise((t) => {
             if (value) {
