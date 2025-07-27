@@ -129,10 +129,13 @@ clcInsert = function(newText = '') {
   const sel = window.getSelection();
   if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return;
 
-  const node = sel.anchorNode;
-  if (node.nodeType !== Node.TEXT_NODE) return;
-
-  const offset = sel.anchorOffset;
+  let node = sel.anchorNode;
+  let offset = sel.anchorOffset;
+    if (node.nodeType !== Node.TEXT_NODE && offset! = 0) {
+                     // caret is at the very start
+    node   = node.childNodes[offset - 1];        // previous sibling
+    offset = node.textContent.length;            // caret is after its last char
+  }
   const range = document.createRange();
   range.setStart(node, 0);          // 
   range.setEnd(node, offset);       // 
@@ -147,10 +150,13 @@ function textBeforeCaret() {
   const sel = window.getSelection();
   if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return '';
 
-  const node = sel.anchorNode;
-  if (node.nodeType !== Node.TEXT_NODE) return '';
-
-  const offset = sel.anchorOffset;   // caret position inside this text node
+  let node = sel.anchorNode;
+  let offset = sel.anchorOffset;  
+  if (node.nodeType !== Node.TEXT_NODE) {
+    if (offset === 0) return '';                 // caret is at the very start
+    node   = node.childNodes[offset - 1];        // previous sibling
+    offset = node.textContent.length;            // caret is after its last char
+  }
   return node.textContent.slice(0, offset);
 }
 </script>
