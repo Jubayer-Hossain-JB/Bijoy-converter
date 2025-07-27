@@ -126,28 +126,35 @@ clcReplace = function(n, text) {
   sel.addRange(range);
 };
 
-clcInsert = function(text) {
+clcInsert = function(newText = '') {
   const sel = window.getSelection();
   if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return;
 
-  const range = sel.getRangeAt(0).cloneRange();
-  range.collapse(false);
-  range.insertNode(document.createTextNode(text));
+  const node = sel.anchorNode;
+  if (node.nodeType !== Node.TEXT_NODE) return;
+
+  const offset = sel.anchorOffset;
+  const range = document.createRange();
+  range.setStart(node, 0);          // start of this text node
+  range.setEnd(node, offset);       // up to caret
+  range.deleteContents();           // wipe old text
+  range.insertNode(document.createTextNode(newText));
+
+  // leave caret just after the replacement
   range.collapse(false);
   sel.removeAllRanges();
   sel.addRange(range);
 };
-
 // returns plain-text characters before caret (inside #editor only)
-function textBeforeCaret(maxChars = Infinity) {
+function textBeforeCaret() {
   const sel = window.getSelection();
   if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return '';
 
-  const r = sel.getRangeAt(0).cloneRange();
-  r.collapse(true);           // collapse to caret start
-  try { r.setStart(editor, 0); } catch (_) { return ''; }
+  const node = sel.anchorNode;
+  if (node.nodeType !== Node.TEXT_NODE) return '';
 
-  return r.toString().slice(-maxChars);   // last `maxChars` chars
+  const offset = sel.anchorOffset;   // caret position inside this text node
+  return node.textContent.slice(0, offset);
 }
 </script>
 </body>
