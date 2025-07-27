@@ -25,7 +25,7 @@ function getTextOfDiv(element) {
       const isBlock = ['div', 'p', 'br', 'section', 'article'].includes(tag);
       if (isBlock) text += '\n';
 
-      text += getTextOfDiv(element);
+      text += getTextOfDiv(node);
      if (tag !== 'br' && isBlock) text += '\n';
 
 
@@ -304,16 +304,12 @@ function asyncCall(e) {
             else 9 == s && (l.preventDefault(), t.focus(), (r = ""), (i = ""), (o = ""));
             clearTimeout(timer), (timer = setTimeout(f, 500));
         }),
-        $("#Classic2").on("click keydown", (e) => {
+        $("#01").on("keydown", (e) => {
             if (e.ctrlKey) (67 != e.keyCode && 88 != e.keyCode) || copyClassic(e.target.innerHTML);
-            else {
-                e.preventDefault(), a.css("display", "block");
-                var t = e.target.innerHTML;
-                a.val(t), $(e.target).css("display", "none"), a.focus();
-            }
+            
         }),
         $("#copy1").click(() => {
-            var e = $("#Classic2");
+            var e = $("#01");
             "none" == e.css("display") ? copyClassic(a.val()) : copyClassic(e.html()),
                 a.focus(),
                 $("#copy1").text("Copied!"),
