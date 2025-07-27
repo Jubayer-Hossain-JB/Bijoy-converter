@@ -39,7 +39,7 @@
                 <div class="copy" id="copy1">Copy</div>
                 <input type="reset" value="&times;" onclick="$('#Classic2').css('display','none'); $('#01').css('display','block')">
             </div>
-            <textarea name="Classic" id="01" cols="30" rows="10"></textarea>
+            <div name="Classic" id="01" cols="30" rows="10"></div>
             <div name="" id="Classic2" contenteditable="true"></div>
         </div>
         <div class="unicode-box">
@@ -92,7 +92,51 @@
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js');
     }  
+</script>
 
-            </script>
+<script>
+const editor = document.getElementById('01');
+
+/* ---------- helpers ---------- */
+function getRangeBeforeCaret(n) {
+  const sel = window.getSelection();
+  if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return null;
+
+  const r = sel.getRangeAt(0).cloneRange();
+  r.collapse(true);              // caret start
+  try { r.setStart(editor, 0); } catch(_) { return null; } // guard for empty editor
+  const len = r.toString().length;        // chars from start of editor to caret
+  if (len < n) n = len;                   // clamp
+
+  r.setEnd(r.startContainer, r.startOffset);
+  r.setStart(editor, Math.max(0, len - n));
+  return r;
+}
+/* ---------- public API ---------- */
+window.clcReplace = function(n, text) {
+  const range = getRangeBeforeCaret(n);
+  if (!range) return;
+
+  range.deleteContents();
+  range.insertNode(document.createTextNode(text));
+
+  range.collapse(false);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+};
+
+window.clcInsert = function(text) {
+  const sel = window.getSelection();
+  if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return;
+
+  const range = sel.getRangeAt(0).cloneRange();
+  range.collapse(false);
+  range.insertNode(document.createTextNode(text));
+  range.collapse(false);
+  sel.removeAllRanges();
+  sel.addRange(range);
+};
+</script>
 </body>
 </html>
