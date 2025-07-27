@@ -113,7 +113,7 @@ function getRangeBeforeCaret(n) {
   return r;
 }
 /* ---------- public API ---------- */
-window.clcReplace = function(n, text) {
+clcReplace = function(n, text) {
   const range = getRangeBeforeCaret(n);
   if (!range) return;
 
@@ -126,7 +126,7 @@ window.clcReplace = function(n, text) {
   sel.addRange(range);
 };
 
-window.clcInsert = function(text) {
+clcInsert = function(text) {
   const sel = window.getSelection();
   if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return;
 
@@ -137,6 +137,18 @@ window.clcInsert = function(text) {
   sel.removeAllRanges();
   sel.addRange(range);
 };
+
+// returns plain-text characters before caret (inside #editor only)
+function textBeforeCaret(maxChars = Infinity) {
+  const sel = window.getSelection();
+  if (!sel.rangeCount || !editor.contains(sel.anchorNode)) return '';
+
+  const r = sel.getRangeAt(0).cloneRange();
+  r.collapse(true);           // collapse to caret start
+  try { r.setStart(editor, 0); } catch (_) { return ''; }
+
+  return r.toString().slice(-maxChars);   // last `maxChars` chars
+}
 </script>
 </body>
 </html>
