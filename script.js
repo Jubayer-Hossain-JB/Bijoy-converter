@@ -120,7 +120,8 @@ function asyncCall(e) {
                     ])
                         s = s.replaceAll(t.seq, t.out);
                 }
-                for (var l of n) s = s.replace(l, "<span>" + l + "</span>");
+                for (var l of n) s = s.replace(l, "<span class=\"eng\">" + l + "</span>");
+                s=s.replaceAll('\n', '</br>')
                 a[0].innerHTML=s;
             });
     }
