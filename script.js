@@ -135,6 +135,7 @@ function asyncCall(e) {
                     { seq: "†", out: "‡" },
                     { seq: "¡", out: "&e" },
                     { seq: "¯Œ", out: "m&K&i" },
+                    { seq: "…", out: "„" },
                 ])
                     value = value.replaceAll(l.seq, l.out);
                 for (var l of s) (value = value.replaceAll(l.out, l.seq)), l == s[s.length - 1] && t(value);
@@ -358,3 +359,4 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
