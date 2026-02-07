@@ -27,13 +27,100 @@ function getTextOfDiv(element) {
 
       text += getTextOfDiv(node);
      if (tag !== 'br' && isBlock) text += '\n';
-
-
     }
   }
-
   return text;
 }
+
+function clusterByFont(elementId) {
+    const root = document.getElementById(elementId);
+    if (!root) return null;
+
+    const newRoot = root.cloneNode(false);
+    const paragraphs = root.querySelectorAll('p');
+
+    paragraphs.forEach((p) => {
+        const newP = p.cloneNode(false);
+        
+        const children = Array.from(p.childNodes);
+        
+        let currentCluster = null;
+        let lastIsSutonny = null;
+
+        children.forEach((node) => {
+            let isSutonny = false;
+            let fontFamily = "";
+
+            if (node.nodeType === Node.ELEMENT_NODE && node.style.fontFamily) {
+                fontFamily = node.style.fontFamily.replace(/['"]+/g, '');
+                isSutonny = fontFamily.includes('SutonnyMJ');
+            }
+
+            if (isSutonny !== lastIsSutonny || currentCluster === null) {
+                currentCluster = document.createElement('span');
+                
+                if (!isSutonny && fontFamily !== "") {
+                    currentCluster.setAttribute('other_lang', 'true');
+                }
+                
+                newP.appendChild(currentCluster);
+                lastIsSutonny = isSutonny;
+            }
+            currentCluster.appendChild(node.cloneNode(true));
+        });
+
+        newRoot.appendChild(newP);
+    });
+    root.innerHTML = newRoot.innerHTML;
+}
+
+function getClusteredTextArray(element, result = []) {
+  // Helper to check if an element is SutonnyMJ
+  const isSutonny = (el) => {
+    if (el.nodeType !== Node.ELEMENT_NODE) return null;
+    const font = el.style.fontFamily.replace(/['"]+/g, '');
+    return font.includes('SutonnyMJ');
+  };
+
+  for (const node of element.childNodes) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const content = node.textContent;
+      if (!content) continue;
+
+      const fontMatch = isSutonny(node.parentElement);
+
+      if (result.length > 0 && result[result.length - 1].isSutonny === fontMatch) {
+        result[result.length - 1].text += content;
+      } else {
+        result.push({
+          text: content,
+          isSutonny: fontMatch
+        });
+      }
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      const tag = node.tagName.toLowerCase();
+      const isBlock = ['div', 'p', 'br', 'section', 'article'].includes(tag);
+
+      if (isBlock) {
+        if (result.length > 0) {
+          result[result.length - 1].text += '\n';
+        }
+      }
+
+      // Recurse into the element
+      getClusteredTextArray(node, result);
+
+      // Handle closing block-level line breaks
+      if (tag !== 'br' && isBlock) {
+        if (result.length > 0) {
+          result[result.length - 1].text += '\n';
+        }
+      }
+    }
+  }
+  return result
+}
+
 var timer = "";
 function asyncCall(e) {
     const t = $('[name="Unicode"]'),
@@ -126,7 +213,8 @@ function asyncCall(e) {
             });
     }
     function f() {
-        (value = getTextOfDiv(a[0])), (r = "");
+        arrays = getTextOfDiv(a[0]);
+        r = "";
         var s = "";
         new Promise((t) => {
             if (value) {
@@ -286,7 +374,7 @@ function asyncCall(e) {
                         u && 86 == s
                             ? setTimeout(() => {
                                   a.val(a.val().replace(/\u2022(?![LNg\u00ff(\u00ffy)(\u00ffz)(\u00ff~)(\u00ff\u201a)(\u00ff\u201e)(\u00ff\u2026)])/g, "·"));
-                              }, 200)
+                              }, 200), clusterByFont("01")
                             : !u || (67 != s && 88 != s) || copyClassic(getSelection().toString());
                 else {
                     l.preventDefault();
@@ -359,4 +447,5 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
