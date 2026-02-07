@@ -196,7 +196,7 @@ function asyncCall(e) {
     }
     function f() {
         final_text = getClusteredTextArray("01").map((text, isbn)=>{
-            if !isbn return text;
+            if (!isbn) return text;
             value = text;
             r = "";
             var s = "";
@@ -434,6 +434,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
