@@ -195,9 +195,9 @@ function asyncCall(e) {
             });
     }
     function f() {
-        final_text = getClusteredTextArray("01").map((text, isbn)=>{
-            if (!isbn) return text;
-            value = text;
+        final_text = getClusteredTextArray("01").map(item=>{
+            if (!item.isSutonny) return item.text;
+            value = item.text;
             r = "";
             var s = "";
             new Promise((t) => {
@@ -435,6 +435,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
