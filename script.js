@@ -12,25 +12,6 @@
         .then((e) => {
             asyncCall(e);
         });
-function getTextOfDiv(element) {
-  let text = '';
-
-  for (const node of element.childNodes) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      text += node.textContent;
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      const tag = node.tagName.toLowerCase();
-
-      // If it's a line-breaking tag
-      const isBlock = ['div', 'p', 'br', 'section', 'article'].includes(tag);
-      if (isBlock) text += '\n';
-
-      text += getTextOfDiv(node);
-     if (tag !== 'br' && isBlock) text += '\n';
-    }
-  }
-  return text;
-}
 
 function clusterByFont(elementId) {
     const root = document.getElementById(elementId);
@@ -74,7 +55,8 @@ function clusterByFont(elementId) {
     root.innerHTML = newRoot.innerHTML;
 }
 
-function getClusteredTextArray(element, result = []) {
+function getClusteredTextArray(elementId, result = []) {
+  let element = document.getElementById(elementId);
   // Helper to check if an element is SutonnyMJ
   const isSutonny = (el) => {
     if (el.nodeType !== Node.ELEMENT_NODE) return null;
@@ -213,84 +195,89 @@ function asyncCall(e) {
             });
     }
     function f() {
-        arrays = getTextOfDiv(a[0]);
-        r = "";
-        var s = "";
-        new Promise((t) => {
-            if (value) {
-                let s = e[1][1];
-                for (var l of [
-                    { seq: "†", out: "‡" },
-                    { seq: "¡", out: "&e" },
-                    { seq: "¯Œ", out: "m&K&i" },
-                    { seq: "…", out: "„" },
-                ])
-                    value = value.replaceAll(l.seq, l.out);
-                for (var l of s) (value = value.replaceAll(l.out, l.seq)), l == s[s.length - 1] && t(value);
-            }
-        })
-            .then(
-                (t) =>
-                    new Promise((a) => {
-                        for (l of t) {
-                            var n = transform(!1, l, e[1][0]);
-                            if (n) {
-                                var c = transform(parseInt(n[0]), !1, e[0][0]),
-                                    f = (n[3] ? c[2] : c[1]) + r,
-                                    u = s[s.length - 1];
-                                if ("্" != u)
-                                    switch (f) {
-                                        case "ে":
-                                        case "ৈ":
-                                        case "ি":
-                                            (r = f), (f = "");
+        final_text = getClusteredTextArray("01").map((text, isbn)=>{
+            if !isbn return text;
+            value = text;
+            r = "";
+            var s = "";
+            new Promise((t) => {
+                if (value) {
+                    let s = e[1][1];
+                    for (var l of [
+                        { seq: "†", out: "‡" },
+                        { seq: "¡", out: "&e" },
+                        { seq: "¯Œ", out: "m&K&i" },
+                        { seq: "…", out: "„" },
+                    ])
+                        value = value.replaceAll(l.seq, l.out);
+                    for (var l of s) (value = value.replaceAll(l.out, l.seq)), l == s[s.length - 1] && t(value);
+                }
+            })
+                .then(
+                    (t) =>
+                        new Promise((a) => {
+                            for (l of t) {
+                                var n = transform(!1, l, e[1][0]);
+                                if (n) {
+                                    var c = transform(parseInt(n[0]), !1, e[0][0]),
+                                        f = (n[3] ? c[2] : c[1]) + r,
+                                        u = s[s.length - 1];
+                                    if ("্" != u)
+                                        switch (f) {
+                                            case "ে":
+                                            case "ৈ":
+                                            case "ি":
+                                                (r = f), (f = "");
+                                                break;
+                                            case "র্":
+                                                (s = "ে" == u || "ৈ" == u || "ি" == u ? s.middleAdd(s.length - 2, f) : s.middleAdd(s.length - 1, f)), (f = "");
+                                                break;
+                                            case "‍্য":
+                                                ("ে" != u && "ৈ" != u && "ি" != u) || ((f += u), (s = s.replaceAt(s.length - 1, "")));
+                                                break;
+                                            case "্":
+                                                ("ে" != u && "ৈ" != u && "ি" != u) || ((o = u), (i = s.length + 1), (s = s.replaceAt(s.length - 1, "")));
+                                                break;
+                                            default:
+                                                r = "";
+                                        }
+                                    else
+                                        switch (f) {
+                                            case "ে":
+                                            case "ৈ":
+                                            case "ি":
+                                            case "ী":
+                                            case "ু":
+                                            case "ূ":
+                                            case "ৃ":
+                                            case "া":
+                                            case "ৃ":
+                                            case "ৗ":
+                                                (s = s.middleAdd(s.length - 1, o)), (o = ""), (i = void 0);
+                                        }
+                                    (s += f), i && s.length === i && ((s += o), (o = ""), (r = ""), (i = void 0));
+                                } else {
+                                    var g = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "$", "^", "š", "¯", "z", "æ", "¤"],
+                                        h = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯", "৳", "ৰ", "ন", "স", "ু", "ু", "ম"];
+                                    for (var m of g) {
+                                        if (l == m) {
+                                            (s += h[g.indexOf(m)] + r), (r = "");
                                             break;
-                                        case "র্":
-                                            (s = "ে" == u || "ৈ" == u || "ি" == u ? s.middleAdd(s.length - 2, f) : s.middleAdd(s.length - 1, f)), (f = "");
-                                            break;
-                                        case "‍্য":
-                                            ("ে" != u && "ৈ" != u && "ি" != u) || ((f += u), (s = s.replaceAt(s.length - 1, "")));
-                                            break;
-                                        case "্":
-                                            ("ে" != u && "ৈ" != u && "ি" != u) || ((o = u), (i = s.length + 1), (s = s.replaceAt(s.length - 1, "")));
-                                            break;
-                                        default:
-                                            r = "";
+                                        }
+                                        m == g[g.length - 1] && (s += l);
                                     }
-                                else
-                                    switch (f) {
-                                        case "ে":
-                                        case "ৈ":
-                                        case "ি":
-                                        case "ী":
-                                        case "ু":
-                                        case "ূ":
-                                        case "ৃ":
-                                        case "া":
-                                        case "ৃ":
-                                        case "ৗ":
-                                            (s = s.middleAdd(s.length - 1, o)), (o = ""), (i = void 0);
-                                    }
-                                (s += f), i && s.length === i && ((s += o), (o = ""), (r = ""), (i = void 0));
-                            } else {
-                                var g = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "$", "^", "š", "¯", "z", "æ", "¤"],
-                                    h = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯", "৳", "ৰ", "ন", "স", "ু", "ু", "ম"];
-                                for (var m of g) {
-                                    if (l == m) {
-                                        (s += h[g.indexOf(m)] + r), (r = "");
-                                        break;
-                                    }
-                                    m == g[g.length - 1] && (s += l);
                                 }
+                                let p = e[0][1];
+                                (s = d(s, p)), l == t[t.length - 1] && a();
                             }
-                            let p = e[0][1];
-                            (s = d(s, p)), l == t[t.length - 1] && a();
-                        }
-                    })
-            )
-            .then(() => {
-                t.val(s);
-            });
+                        })
+                )
+                .then(() => {
+                    return s
+                    //t.val(s);
+                });
+        });
+        t.val(final_text.join(""));
     }
     function d(e, t, l = !1) {
         var s;
@@ -447,5 +434,6 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
