@@ -277,6 +277,7 @@ function asyncCall(e) {
                     //t.val(s);
                 });
         });
+        console.log(final_text);
         t.val(final_text.join(""));
     }
     function d(e, t, l = !1) {
@@ -434,6 +435,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
