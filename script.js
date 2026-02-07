@@ -361,7 +361,7 @@ function asyncCall(e) {
                                     if (!item.isSutonny) return item.text;
                                     return f(item.text)
                                 });
-                                t.val(texts.join("");
+                                t.val(texts.join(""));
                               })
                             : !u || (67 != s && 88 != s) || copyClassic(getSelection().toString());
                 else {
@@ -437,6 +437,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
