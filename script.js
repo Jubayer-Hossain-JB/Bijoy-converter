@@ -55,13 +55,33 @@ function clusterByFont(elementId) {
     root.innerHTML = newRoot.innerHTML;
 }
 
+function getTextOfDiv(element) {
+  let text = '';
+
+  for (const node of element.childNodes) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      text += node.textContent;
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      const tag = node.tagName.toLowerCase();
+
+      // If it's a line-breaking tag
+      const isBlock = ['div', 'p', 'br', 'section', 'article'].includes(tag);
+      if (isBlock) text += '\n';
+
+      text += getTextOfDiv(node);
+     if (tag !== 'br' && isBlock) text += '\n';
+    }
+  }
+  return text;
+}
+
 function getClusteredTextArray(elementId, result = []) {
   let element = document.getElementById(elementId);
   // Helper to check if an element is SutonnyMJ
   const isSutonny = (el) => {
     if (el.nodeType !== Node.ELEMENT_NODE) return null;
     const font = el.style.fontFamily.replace(/['"]+/g, '');
-    return font.includes('SutonnyMJ');
+    return font.includes('SutonnyMJ')||(font=='');
   };
 
   for (const node of element.childNodes) {
@@ -437,6 +457,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
