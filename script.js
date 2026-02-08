@@ -27,7 +27,6 @@ function getTextOfDiv(element) {
       if (isBlock) text += '\n';
 
       text += getTextOfDiv(node);
-     if (tag !== 'br' && isBlock) text += '\n';
     }
   }
   return text;
@@ -68,12 +67,6 @@ function getClusteredTextArray(element, result = []) {
 
       // Recurse into the element
       getClusteredTextArray(node, result);
-
-      // Handle closing block-level line breaks
-      if (tag !== 'br' && isBlock) {
-        if (result.length > 0) {
-          result[result.length - 1].text += '\n';
-        }
       }
     }
   }
@@ -337,7 +330,6 @@ function asyncCall(e) {
                                     if (!item.isSutonny) return item.text;
                                     return f(item.text);
                                 });
-                                console.log(texts)
                                 Promise.all(texts).then(r=>t.val(r.join(" ")))
                             }, 200)
                             : !u || (67 != s && 88 != s) || copyClassic(getSelection().toString());
