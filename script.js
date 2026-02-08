@@ -331,7 +331,7 @@ function asyncCall(e) {
                 if (u || g)
                     (r = ""),
                         u && 86 == s
-                            ? (setTimeout(() => {
+                            ? setTimeout(() => {
                                   a.val(a.val().replace(/\u2022(?![LNg\u00ff(\u00ffy)(\u00ffz)(\u00ff~)(\u00ff\u201a)(\u00ff\u201e)(\u00ff\u2026)])/g, "·"));
                                let text = [];
                                let texts = getClusteredTextArray(a[0]).map(item => {
@@ -343,8 +343,7 @@ function asyncCall(e) {
                                 });
                                console.log(text.join(""));
                                 t.val(text.join(""));
-                            }
-                              )
+                            })
                             : !u || (67 != s && 88 != s) || copyClassic(getSelection().toString());
                 else {
                     l.preventDefault();
@@ -422,6 +421,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
