@@ -379,7 +379,7 @@ function asyncCall(e) {
                               }, 200), clusterByFont("01"),(()=>{
                                let texts = getClusteredTextArray("01").map(item => {
                                     if (!item.isSutonny) return item.text;
-                                    return f(item.text)
+                                    return await f(item.text)
                                 });
                                console.log(texts.join(""));
                                 t.val(texts.join(""));
@@ -403,8 +403,7 @@ function asyncCall(e) {
                 }
             else 9 == s && (l.preventDefault(), t.focus(), (r = ""), (i = ""), (o = ""));
             clearTimeout(timer), (timer = setTimeout(()=>{
-                console.log(f(getTextOfDiv(a[0])))
-                t.val(f(getTextOfDiv(a[0])))
+                f(getTextOfDiv(a[0])).then(result=>t.val(result));
             }, 500));
         }),
         $("#01").on("keydown", (e) => {
@@ -460,6 +459,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
