@@ -338,10 +338,11 @@ function asyncCall(e) {
                                    console.log(item)
                                     if (!item.isSutonny) return item.text;
                                     f(item.text).then(i=>{
+                                        console.log(i));
+                                        console.log(text)
                                         text.push(i)
                                     });
                                 });
-                               console.log(text.join(""));
                                 t.val(text.join(""));
                             }, 200)
                             : !u || (67 != s && 88 != s) || copyClassic(getSelection().toString());
@@ -423,6 +424,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
