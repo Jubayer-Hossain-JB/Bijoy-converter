@@ -67,7 +67,6 @@ function getClusteredTextArray(element, result = []) {
 
       // Recurse into the element
       getClusteredTextArray(node, result);
-      }
     }
   }
   return result
@@ -411,6 +410,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
