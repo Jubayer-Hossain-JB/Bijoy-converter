@@ -216,70 +216,82 @@ function asyncCall(e) {
     function f(value) {
         r = "";
         var s = "";
-        if (value) {
-            let s = e[1][1];
-            for (var l of [
-                { seq: "†", out: "‡" },
-                { seq: "¡", out: "&e" },
-                { seq: "¯Œ", out: "m&K&i" },
-                { seq: "…", out: "„" },
-            ])   value = value.replaceAll(l.seq, l.out);
-            for (var l of s) (value = value.replaceAll(l.out, l.seq));
-            for (l of value) {
-                var n = transform(!1, l, e[1][0]);
-                if (n) {
-                    var c = transform(parseInt(n[0]), !1, e[0][0]),
-                        f = (n[3] ? c[2] : c[1]) + r,
-                        u = s[s.length - 1];
-                    if ("্" != u)
-                        switch (f) {
-                            case "ে":
-                            case "ৈ":
-                            case "ি":
-                                (r = f), (f = "");
-                                break;
-                            case "র্":
-                                (s = "ে" == u || "ৈ" == u || "ি" == u ? s.middleAdd(s.length - 2, f) : s.middleAdd(s.length - 1, f)), (f = "");
-                                break;
-                            case "‍্য":
-                                ("ে" != u && "ৈ" != u && "ি" != u) || ((f += u), (s = s.replaceAt(s.length - 1, "")));
-                                break;
-                            case "্":
-                                ("ে" != u && "ৈ" != u && "ি" != u) || ((o = u), (i = s.length + 1), (s = s.replaceAt(s.length - 1, "")));
-                                break;
-                            default:
-                                r = "";
-                        }
-                    else
-                        switch (f) {
-                            case "ে":
-                            case "ৈ":
-                            case "ি":
-                            case "ী":
-                            case "ু":
-                            case "ূ":
-                            case "ৃ":
-                            case "া":
-                            case "ৃ":
-                            case "ৗ":
-                                (s = s.middleAdd(s.length - 1, o)), (o = ""), (i = void 0);
-                        }
-                    (s += f), i && s.length === i && ((s += o), (o = ""), (r = ""), (i = void 0));
-                } else {
-                    var g = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "$", "^", "š", "¯", "z", "æ", "¤"],
-                        h = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯", "৳", "ৰ", "ন", "স", "ু", "ু", "ম"];
-                    for (var m of g) {
-                        if (l == m) {
-                            (s += h[g.indexOf(m)] + r), (r = "");
-                            break;
-                        }
-                        m == g[g.length - 1] && (s += l);
-                    }
-                }
+        return new Promise((t) => {
+            if (value) {
+                let s = e[1][1];
+                for (var l of [
+                    { seq: "†", out: "‡" },
+                    { seq: "¡", out: "&e" },
+                    { seq: "¯Œ", out: "m&K&i" },
+                    { seq: "…", out: "„" },
+                ])
+                    value = value.replaceAll(l.seq, l.out);
+                for (var l of s) (value = value.replaceAll(l.out, l.seq)), l == s[s.length - 1] && t(value);
             }
-            console.log(s)
-            return s
-        }           
+        })
+            .then(
+                (t) =>
+                    new Promise((a) => {
+                        for (l of t) {
+                            var n = transform(!1, l, e[1][0]);
+                            if (n) {
+                                var c = transform(parseInt(n[0]), !1, e[0][0]),
+                                    f = (n[3] ? c[2] : c[1]) + r,
+                                    u = s[s.length - 1];
+                                if ("্" != u)
+                                    switch (f) {
+                                        case "ে":
+                                        case "ৈ":
+                                        case "ি":
+                                            (r = f), (f = "");
+                                            break;
+                                        case "র্":
+                                            (s = "ে" == u || "ৈ" == u || "ি" == u ? s.middleAdd(s.length - 2, f) : s.middleAdd(s.length - 1, f)), (f = "");
+                                            break;
+                                        case "‍্য":
+                                            ("ে" != u && "ৈ" != u && "ি" != u) || ((f += u), (s = s.replaceAt(s.length - 1, "")));
+                                            break;
+                                        case "্":
+                                            ("ে" != u && "ৈ" != u && "ি" != u) || ((o = u), (i = s.length + 1), (s = s.replaceAt(s.length - 1, "")));
+                                            break;
+                                        default:
+                                            r = "";
+                                    }
+                                else
+                                    switch (f) {
+                                        case "ে":
+                                        case "ৈ":
+                                        case "ি":
+                                        case "ী":
+                                        case "ু":
+                                        case "ূ":
+                                        case "ৃ":
+                                        case "া":
+                                        case "ৃ":
+                                        case "ৗ":
+                                            (s = s.middleAdd(s.length - 1, o)), (o = ""), (i = void 0);
+                                    }
+                                (s += f), i && s.length === i && ((s += o), (o = ""), (r = ""), (i = void 0));
+                            } else {
+                                var g = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "$", "^", "š", "¯", "z", "æ", "¤"],
+                                    h = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯", "৳", "ৰ", "ন", "স", "ু", "ু", "ম"];
+                                for (var m of g) {
+                                    if (l == m) {
+                                        (s += h[g.indexOf(m)] + r), (r = "");
+                                        break;
+                                    }
+                                    m == g[g.length - 1] && (s += l);
+                                }
+                            }
+                            let p = e[0][1];
+                            (s = d(s, p)), l == t[t.length - 1] && a();
+                        }
+                    })
+            )
+            .then(() => {
+                return s;
+                //t.val(s);
+            });
     }
     function d(e, t, l = !1) {
         var s;
@@ -390,7 +402,7 @@ function asyncCall(e) {
                 }
             else 9 == s && (l.preventDefault(), t.focus(), (r = ""), (i = ""), (o = ""));
             clearTimeout(timer), (timer = setTimeout(()=>{
-                t.val(f(getTextOfDiv(a[0])));
+                t.val(await f(getTextOfDiv(a[0])));
             }, 500));
         }),
         $("#01").on("keydown", (e) => {
@@ -446,6 +458,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
