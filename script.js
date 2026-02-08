@@ -13,55 +13,12 @@
             asyncCall(e);
         });
 
-function clusterByFont(elementId) {
-    const root = document.getElementById(elementId);
-    if (!root) return null;
-
-    const newRoot = root.cloneNode(false);
-    const paragraphs = root.querySelectorAll('p');
-
-    paragraphs.forEach((p) => {
-        const newP = p.cloneNode(false);
-        
-        const children = Array.from(p.childNodes);
-        
-        let currentCluster = null;
-        let lastIsSutonny = null;
-
-        children.forEach((node) => {
-            let isSutonny = false;
-            let fontFamily = "";
-
-            if (node.nodeType === Node.ELEMENT_NODE && node.style.fontFamily) {
-                fontFamily = node.style.fontFamily.replace(/['"]+/g, '');
-                isSutonny = fontFamily.includes('SutonnyMJ');
-            }
-
-            if (isSutonny !== lastIsSutonny || currentCluster === null) {
-                currentCluster = document.createElement('span');
-                
-                if (!isSutonny && fontFamily !== "") {
-                    currentCluster.setAttribute('other_lang', 'true');
-                }
-                
-                newP.appendChild(currentCluster);
-                lastIsSutonny = isSutonny;
-            }
-            currentCluster.appendChild(node.cloneNode(true));
-        });
-
-        newRoot.appendChild(newP);
-    });
-    console.log("clustered")
-    root.innerHTML = newRoot.innerHTML;
-}
-
 function getTextOfDiv(element) {
   let text = '';
 
   for (const node of element.childNodes) {
     if (node.nodeType === Node.TEXT_NODE) {
-      text += node.textContent;
+      text += node.textContent.replace(/\n/g, ' ');
     } else if (node.nodeType === Node.ELEMENT_NODE) {
       const tag = node.tagName.toLowerCase();
 
@@ -86,7 +43,7 @@ function getClusteredTextArray(element, result = []) {
 
   for (const node of element.childNodes) {
     if (node.nodeType === Node.TEXT_NODE) {
-      const content = node.textContent;
+      const content = node.textContent.replace(/\n/g, ' ');
       if (!content) continue;
 
       const fontMatch = isSutonny(node.parentElement);
@@ -376,7 +333,7 @@ function asyncCall(e) {
                         u && 86 == s
                             ? (setTimeout(() => {
                                   a.val(a.val().replace(/\u2022(?![LNg\u00ff(\u00ffy)(\u00ffz)(\u00ff~)(\u00ff\u201a)(\u00ff\u201e)(\u00ff\u2026)])/g, "·"));
-                              }, 200), clusterByFont(a[0]),(()=>{
+                              }, 200),(()=>{
                                let text = [];
                                let texts = getClusteredTextArray(a[0]).map(item => {
                                    console.log(item)
@@ -466,6 +423,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
