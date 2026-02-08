@@ -359,14 +359,16 @@ function asyncCall(e) {
                     m = m+s;
                     var v = d(m, e[1][1]);
                     clcInsert(v)
+
+                clearTimeout(timer), (timer = setTimeout(()=>{
+                    f(getTextOfDiv(a[0])).then(i=>{
+                        t.val(i);
+                    })
+               
+                }, 500));
                 }
             else 9 == s && (l.preventDefault(), t.focus(), (r = ""), (i = ""), (o = ""));
-            clearTimeout(timer), (timer = setTimeout(()=>{
-                f(getTextOfDiv(a[0])).then(i=>{
-                     t.val(i);
-                })
-               
-            }, 500));
+ 
         }),
         $("#01").on("keydown", (e) => {
             if (e.ctrlKey) (67 != e.keyCode && 88 != e.keyCode) || copyClassic(e.target.innerHTML);
@@ -421,6 +423,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
