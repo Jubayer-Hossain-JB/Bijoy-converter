@@ -52,6 +52,7 @@ function clusterByFont(elementId) {
 
         newRoot.appendChild(newP);
     });
+    console.log("clustered")
     root.innerHTML = newRoot.innerHTML;
 }
 
@@ -378,6 +379,7 @@ function asyncCall(e) {
                               }, 200), clusterByFont(a[0]),(()=>{
                                let text = [];
                                let texts = getClusteredTextArray(a[0]).map(item => {
+                                   console.log(item)
                                     if (!item.isSutonny) return item.text;
                                     f(item.text).then(i=>{
                                         text.push(i)
@@ -464,6 +466,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
