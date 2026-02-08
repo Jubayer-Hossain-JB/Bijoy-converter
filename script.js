@@ -376,13 +376,14 @@ function asyncCall(e) {
                         u && 86 == s
                             ? (setTimeout(() => {
                                   a.val(a.val().replace(/\u2022(?![LNg\u00ff(\u00ffy)(\u00ffz)(\u00ff~)(\u00ff\u201a)(\u00ff\u201e)(\u00ff\u2026)])/g, "·"));
-                              }, 200), clusterByFont("01"), ()=>{
-                                texts = getClusteredTextArray("01").map(item => {
+                              }, 200), clusterByFont("01"),
+                               let texts = getClusteredTextArray("01").map(item => {
                                     if (!item.isSutonny) return item.text;
                                     return f(item.text)
-                                });
-                                t.val(texts.join(""));
-                              })
+                                }),
+                               console.log(texts.join("")),
+                                t.val(texts.join(""))
+                              )
                             : !u || (67 != s && 88 != s) || copyClassic(getSelection().toString());
                 else {
                     l.preventDefault();
@@ -401,6 +402,7 @@ function asyncCall(e) {
                 }
             else 9 == s && (l.preventDefault(), t.focus(), (r = ""), (i = ""), (o = ""));
             clearTimeout(timer), (timer = setTimeout(()=>{
+                console.log(f(getTextOfDiv(a[0])))
                 t.val(f(getTextOfDiv(a[0])))
             }, 500));
         }),
@@ -457,6 +459,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
