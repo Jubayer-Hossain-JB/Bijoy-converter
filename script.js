@@ -217,7 +217,6 @@ function asyncCall(e) {
     function f(value) {
         r = "";
         var s = "";
-        await new Promise((t) => {
             if (value) {
                 let s = e[1][1];
                 for (var l of [
@@ -227,12 +226,9 @@ function asyncCall(e) {
                     { seq: "…", out: "„" },
                 ])
                     value = value.replaceAll(l.seq, l.out);
-                for (var l of s) (value = value.replaceAll(l.out, l.seq)), l == s[s.length - 1] && t(value);
+                for (var l of s) (value = value.replaceAll(l.out, l.seq)), l == s[s.length - 1] && a(value);
             }
-        })
-            .then(
-                (t) =>
-                    new Promise((a) => {
+            a = (t) =>{
                         for (l of t) {
                             var n = transform(!1, l, e[1][0]);
                             if (n) {
@@ -284,11 +280,8 @@ function asyncCall(e) {
                                     m == g[g.length - 1] && (s += l);
                                 }
                             }
-                            let p = e[0][1];
-                            (s = d(s, p)), l == t[t.length - 1] && a();
                         }
-                    })
-            );
+                    }
         return s
     }
     function d(e, t, l = !1) {
