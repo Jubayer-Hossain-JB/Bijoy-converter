@@ -217,7 +217,7 @@ function asyncCall(e) {
     function f(value) {
         r = "";
         var s = "";
-        new Promise((t) => {
+        return Promise((t) => {
             if (value) {
                 let s = e[1][1];
                 for (var l of [
@@ -460,6 +460,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
