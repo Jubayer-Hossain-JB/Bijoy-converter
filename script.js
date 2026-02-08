@@ -376,12 +376,15 @@ function asyncCall(e) {
                             ? (setTimeout(() => {
                                   a.val(a.val().replace(/\u2022(?![LNg\u00ff(\u00ffy)(\u00ffz)(\u00ff~)(\u00ff\u201a)(\u00ff\u201e)(\u00ff\u2026)])/g, "·"));
                               }, 200), clusterByFont(a[0]),(()=>{
-                               let texts = getClusteredTextArray("01").map(item => {
+                               let text = [];
+                               let texts = getClusteredTextArray(a[0]).map(item => {
                                     if (!item.isSutonny) return item.text;
-                                    return f(item.text)
+                                    f(item.text).then(i=>{
+                                        text.push(i)
+                                    })
                                 });
-                               console.log(texts.join(""));
-                                t.val(texts.join(""));
+                               console.log(text.join(""));
+                                t.val(text.join(""));
                             })()
                               )
                             : !u || (67 != s && 88 != s) || copyClassic(getSelection().toString());
@@ -402,8 +405,10 @@ function asyncCall(e) {
                 }
             else 9 == s && (l.preventDefault(), t.focus(), (r = ""), (i = ""), (o = ""));
             clearTimeout(timer), (timer = setTimeout(()=>{
-                let clstext = await f(getTextOfDiv(a[0]));
-                t.val(clstext);
+                f(getTextOfDiv(a[0])).then(i=>{
+                     t.val(i);
+                })
+               
             }, 500));
         }),
         $("#01").on("keydown", (e) => {
@@ -459,6 +464,7 @@ document.onkeydown = (e) => {
     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
     if (e.keyCode === 123 || ctrlShiftKey(e, "I") || ctrlShiftKey(e, "J") || ctrlShiftKey(e, "C") || (e.ctrlKey && e.keyCode === "U".charCodeAt(0))) return false;
 };
+
 
 
 
