@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jubayer-hossain-jb.github.io/Bijoy-converter/sitemap.xml
