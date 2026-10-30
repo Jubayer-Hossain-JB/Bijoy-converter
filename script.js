@@ -399,8 +399,6 @@ function copyClassic(e) {
         }),
     ]);
 }
-//prevent spy copy site
-document.addEventListener("contextmenu", (e) => e.preventDefault());
 
 function ctrlShiftKey(e, keyCode) {
     return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
