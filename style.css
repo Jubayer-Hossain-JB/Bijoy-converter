@@ -75,7 +75,7 @@ h1 {
     font-size: clamp(1rem, 1.5vw, 1.3rem);
 }
 
-.description-text{
+.description-text {
     color: white;
     width: 86%;
     margin: 15px auto;
@@ -157,10 +157,14 @@ h1 {
     gap: 8px;
 }
 
-.editor-actions{
+/* Toolbar positioning */
+.editor-actions {
     position: absolute;
+    top: 10px;
     right: 18px;
+    z-index: 5;
 }
+
 /* Copy and clear buttons */
 .copy,
 .clear-button {
@@ -194,7 +198,7 @@ h1 {
     min-width: 28px;
     padding: 3px 8px;
     background-color: #842b42;
-    border: 1px solid;    
+    border: 1px solid;
 }
 
 .clear-button:hover {
@@ -208,7 +212,7 @@ h1 {
 }
 
 /* Classic editor */
-.editor{
+.editor {
     outline: 0;
     border: 0;
     resize: none;
@@ -216,7 +220,7 @@ h1 {
     height: 80vh;
 }
 
-[name="Classic"]{
+[name="Classic"] {
     display: block;
     position: relative;
     width: 100%;
@@ -262,6 +266,7 @@ h1 {
     line-height: 1.6;
 }
 
+/* Editor selection */
 [name="Classic"]::selection,
 [name="Unicode"]::selection {
     background-color: #81b2c986;
@@ -278,20 +283,13 @@ h1 {
 }
 
 /* Classic text highlighting */
-.myhighlight{
+.myhighlight {
     font-family: sutonny;
     background-color: transparent;
-}
-
-.myhighlight {
     display: inline-block;
     border-bottom: 3px solid red;
     border-radius: 3px;
     line-height: 60%;
-}
-
-[name="Classic"]{
-    font-size: 25px !important;
 }
 
 span.eng {
@@ -309,16 +307,18 @@ span.eng {
 }
 
 /* Focus styling */
-#01:focus-visible,
-#02:focus-visible {
+[id="01"]:focus-visible,
+[id="02"]:focus-visible,
+[name="Classic"]:focus-visible,
+[name="Unicode"]:focus-visible {
     outline: 2px solid #165e76;
     outline-offset: -2px;
 }
 
 /* Scrollbars */
 .classic-text-box::-webkit-scrollbar,
-#01::-webkit-scrollbar,
-#02::-webkit-scrollbar,
+[id="01"]::-webkit-scrollbar,
+[id="02"]::-webkit-scrollbar,
 textarea::-webkit-scrollbar {
     width: 9px;
 }
@@ -407,12 +407,12 @@ body::-webkit-scrollbar {
     outline-offset: 3px;
 }
 
-.text-box .subtitle{
+.text-box .subtitle {
     text-align: center;
     margin-block: 5px;
 }
 
-.text-box .last-updated{
+.text-box .last-updated {
     color: #750000;
 }
 
@@ -421,7 +421,7 @@ body::-webkit-scrollbar {
     margin-top: 15px;
 }
 
-.text-box .site-footer{
+.text-box .site-footer {
     text-align: center;
 }
 
@@ -444,9 +444,15 @@ body::-webkit-scrollbar {
         gap: 20px;
     }
 
-    #01,
-    #02,
+    [id="01"],
+    [id="02"],
     .classic-text-box {
+        height: 60vh;
+        min-height: 300px;
+    }
+
+    [name="Classic"],
+    [name="Unicode"] {
         height: 60vh;
         min-height: 300px;
     }
@@ -487,27 +493,34 @@ body::-webkit-scrollbar {
         font-size: 15px;
     }
 
-    #01,
-    #02,
+    [id="01"],
+    [id="02"],
     .classic-text-box {
         height: 55vh;
         min-height: 260px;
     }
 
-    #01,
+    [name="Classic"],
+    [name="Unicode"] {
+        height: 55vh;
+        min-height: 260px;
+    }
+
+    [id="01"],
     div[name="Classic"] {
         padding: 10px;
         font-size: 22px;
     }
 
-    #02,
+    [id="02"],
     textarea[name="Unicode"] {
         padding: 10px;
         font-size: 17px;
     }
 
     #ClassicBar,
-    #UnicodeBar {
+    #UnicodeBar,
+    .editor-actions {
         top: 7px;
         right: 8px;
     }
